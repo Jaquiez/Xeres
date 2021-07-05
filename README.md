@@ -1,7 +1,7 @@
 # Xeres
 Xeres is a RC-Based mod for Attack on Titan Tribute Game. It is a rewrite of my previous mod "ZMOD"
 
-##Download
+## Download
 
 Xeres is [public and free to use!](https://www.dropbox.com/sh/7og6dmljq6l767m/AABqST1_ZORjvasLz18DefiAa?dl=0)
 
