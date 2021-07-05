@@ -1,7 +1,7 @@
-#Xeres
+# Xeres
 Xeres is a RC-Based mod for Attack on Titan Tribute Game. It is a rewrite of my previous mod "ZMOD"
 
-##Preferences
+## Preferences
 infGas: Infinite Gas | Set as true or false
 infAHSS: Infinite AHSS bullets | Set as true or false
 infBlades: Infinite Blades | Set as true or false
@@ -12,5 +12,5 @@ chatColor: Colored chat | Set as color hex (for example: ff00ee)
 AHSSIdle= AHSS Idle | Set as true or false
 gasBurst= Set custom gas burst | Set as "redcross" or "redcross1"
 
-##Commands
+## Commands
 Use /help to see a full list in game
