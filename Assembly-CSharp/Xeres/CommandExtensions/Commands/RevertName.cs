@@ -20,6 +20,11 @@ namespace Xeres.CommandExtensions.Commands
         }
         public override void executeCommand(string args)
         {
+            Xeres.UserPrefs.PropertyHandler prophandler = GameObject.Find("XeresManager").GetComponent<Xeres.UserPrefs.PropertyHandler>();
+            if(prophandler.XeresPropeties[XeresProperty.chatName].Equals(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]))
+            {
+                prophandler.XeresPropeties[XeresProperty.chatName] = PlayerPrefs.GetString("name").hexColor();
+            }
             PhotonNetwork.player.customProperties[PhotonPlayerProperty.name] = PlayerPrefs.GetString("name");
             FengGameManagerMKII.instance.name = PlayerPrefs.GetString("name");
             PhotonNetwork.player.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { PhotonPlayerProperty.name, FengGameManagerMKII.instance.name } });
@@ -33,7 +38,7 @@ namespace Xeres.CommandExtensions.Commands
                     FengGameManagerMKII.instance.photonView.RPC("labelRPC", PhotonTargets.All, go.GetPhotonView().viewID);
                 }
             }
-
+            
         }
     }
 }

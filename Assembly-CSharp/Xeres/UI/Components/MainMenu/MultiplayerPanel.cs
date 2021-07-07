@@ -92,7 +92,7 @@ namespace Xeres.UI.Components.MainMenu
                     continue;
                 string[] name = room.name.Split('`');
                 string displayName = "" + name[0].hexColor() + " | " + name[1] + " | <color=#ff4757> Difficulty: " + name[2].ToUpper() + "</color> | <color=#ff7f50> Players: " + room.playerCount + "/" + room.maxPlayers + "</color>";
-                displayName += room.name.Contains("==") ? "| <color=#ff0000> PWD </color>" : "";
+                displayName += room.name.Contains("==") ? " | <color=#ff0000> PWD </color>" : "";
                 if(room.name.ToLower().Contains(settings["filter"].ToString().ToLower()))
                 { 
                     if (GUILayout.Button(displayName, button, new GUILayoutOption[] { GUILayout.ExpandHeight(true),GUILayout.MinHeight(50) }))
@@ -122,9 +122,9 @@ namespace Xeres.UI.Components.MainMenu
             if(GUILayout.Button("Back",button))
             {
                 GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<MultiplayerPanel>());
-                GameObject.Find("XeresUIManager").AddComponent<MainMenuButtons>();
-                GameObject.Find("XeresUIManager").AddComponent<PreferenceSetter>();
-                GameObject.Find("XeresUIManager").AddComponent<Title>();
+                GameObject.Find("XeresUIManager").AddComponent<Xeres.UI.Components.MainMenu.PreferenceSetter>();
+                GameObject.Find("XeresUIManager").AddComponent<Xeres.UI.Components.MainMenu.MainMenuButtons>();
+                GameObject.Find("XeresUIManager").AddComponent<Xeres.UI.Components.MainMenu.Title>();
             }
             GUILayout.EndHorizontal();
             GUILayout.EndArea();

@@ -57,10 +57,16 @@ public class UIMainReferences : MonoBehaviour
 
     private void Start()
     {
+        GameObject updater = new GameObject("updater");
+        DontDestroyOnLoad(updater);
+        updater.AddComponent<Xeres.AutoUpdater.UpdateManager>();
+
         string versionShow = "8/12/2015";
         string versionForm = "08122015";
         fengVersion = "01042015";
         NGUITools.SetActive(this.panelMain, true);
+
+
         if (!GameObject.Find("XeresManager"))
         {
             Xeres.UI.XeresAssetHandler.Init();
@@ -71,9 +77,7 @@ public class UIMainReferences : MonoBehaviour
 
             XeresUIManager = new GameObject("XeresUIManager");
             DontDestroyOnLoad(XeresUIManager);
-            XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.PreferenceSetter>();
-            XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.MainMenuButtons>();
-            XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.Title>();
+            XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.StartUp>();
         }
         if ((version == null) || version.StartsWith("error"))
         {

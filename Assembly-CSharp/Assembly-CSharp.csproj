@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\AoTTG\AoTTG_Data\Managed\</OutputPath>
+    <OutputPath>..\AoTTG\Xeres_Data\Managed\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>1</WarningLevel>
@@ -88,6 +88,8 @@
     <Compile Include="HeroCostume.cs" />
     <Compile Include="CostumeHair.cs" />
     <Compile Include="CharacterMaterials.cs" />
+    <Compile Include="Xeres\AutoUpdater\UpdateManager.cs" />
+    <Compile Include="Xeres\AutoUpdater\UpdateStatus.cs" />
     <Compile Include="Xeres\CommandExtensions\Command.cs" />
     <Compile Include="Xeres\CommandExtensions\CommandHandler.cs" />
     <Compile Include="Xeres\CommandExtensions\Commands\ChangeName.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Xeres\UI\Components\MainMenu\MainMenuButtons.cs" />
     <Compile Include="Xeres\UI\Components\MainMenu\MultiplayerPanel.cs" />
     <Compile Include="Xeres\UI\Components\MainMenu\PreferenceSetter.cs" />
+    <Compile Include="Xeres\UI\Components\MainMenu\StartUp.cs" />
     <Compile Include="Xeres\UI\Components\MainMenu\Title.cs" />
     <Compile Include="Xeres\UI\Components\MainMenu\Tools.cs" />
     <Compile Include="Xeres\UI\UITools.cs" />

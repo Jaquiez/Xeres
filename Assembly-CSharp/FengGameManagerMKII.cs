@@ -5278,6 +5278,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                     XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.MainMenuButtons>();
                     XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.Title>();
                 }
+                
                 string text = GameObject.Find("VERSION").GetComponent<UILabel>().text;
                 if (text != null)
                 {
