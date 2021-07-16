@@ -21,6 +21,13 @@ namespace Xeres.AutoUpdater
             localVersion = File.ReadAllText(Application.dataPath + @"/Version.txt");
             status = UpdateStatus.Checking;
             gameZip = Environment.CurrentDirectory + @"\XeresUpdate.zip";
+            /*
+            if(!checkForInternetConnect())
+            {
+                status = UpdateStatus.Updated;
+            }
+            Console.WriteLine("STATUS " + status);*/
+
             StartCoroutine(checkVersion());
         }
         private IEnumerator checkVersion()
@@ -125,6 +132,18 @@ namespace Xeres.AutoUpdater
             }
             return isOk;
         }
+        public static bool checkForInternetConnect()
+        {
+            try
+            {
+                Ping ping = new Ping("https://github.com/Jaquiez");
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
     }
-    
 }

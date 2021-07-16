@@ -2719,6 +2719,7 @@ public class HERO : Photon.MonoBehaviour
                 else
                 {
                     int viewID = -1;
+                    //Horse fix may come here, null photonview error
                     if (this.myHorse != null)
                     {
                         viewID = this.myHorse.GetPhotonView().viewID;

@@ -58,7 +58,6 @@ public class UIMainReferences : MonoBehaviour
     private void Start()
     {
         GameObject updater = new GameObject("updater");
-        DontDestroyOnLoad(updater);
         updater.AddComponent<Xeres.AutoUpdater.UpdateManager>();
 
         string versionShow = "8/12/2015";
@@ -74,7 +73,7 @@ public class UIMainReferences : MonoBehaviour
             DontDestroyOnLoad(XeresManager);
             XeresManager.AddComponent<Xeres.CommandExtensions.CommandHandler>();
             XeresManager.AddComponent<Xeres.UserPrefs.PropertyHandler>();
-
+            XeresManager.AddComponent<Xeres.Options.SettingHandler>();
             XeresUIManager = new GameObject("XeresUIManager");
             DontDestroyOnLoad(XeresUIManager);
             XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.StartUp>();

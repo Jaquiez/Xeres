@@ -28,7 +28,7 @@ namespace Xeres.UI.Components.MainMenu
                             //GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<MainMenu.MainMenuButtons>());
                             GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<MainMenuButtons>());
                             GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<Title>());
-                            GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<PreferenceSetter>());
+                        ;    GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<PreferenceSetter>());
                             GameObject.Find("XeresUIManager").AddComponent<CreateSingleGamePanel>();
                             Console.WriteLine("Singleplayer");
                             break;
@@ -41,6 +41,10 @@ namespace Xeres.UI.Components.MainMenu
                             break;
                         case "Options":
                             //GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<MainMenu.MainMenuButtons>());
+                            GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<MainMenuButtons>());
+                            GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<Title>());
+                            GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<PreferenceSetter>());
+                            GameObject.Find("XeresUIManager").AddComponent<XeresOptions>();
                             Console.WriteLine("Options");
                             break;
                         case "Tools":

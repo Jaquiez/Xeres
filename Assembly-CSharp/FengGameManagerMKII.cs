@@ -10739,7 +10739,10 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.setGameSettings(hash);
             if (masterclientSwitched)
             {
-                this.sendChatContentInfo("<color=#a60d1a><b>MasterClient has switched to </color>" + ((string)PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]).hexColor()+"</b>");
+                string content = "<b><color=#3778d4>MasterClient has switched to </color>" + RCextensions.hexColor(RCextensions.returnStringFromObject(PhotonNetwork.player.customProperties[PhotonPlayerProperty.name])) + "</b>";
+                object[] parameters = new object[] { content, string.Empty };
+                base.photonView.RPC("Chat", PhotonTargets.All, parameters);
+                //this.sendChatContentInfo("<color=#a60d1a><b>MasterClient has switched to </color>" + ((string)PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]).hexColor()+"</b>");
                 //this.sendChatContentInfo("<color=#A8FF24>MasterClient has switched to </color>" + ((string) PhotonNetwork.player.customProperties[PhotonPlayerProperty.name]).hexColor());
             }
         }

@@ -22,6 +22,15 @@ namespace Xeres.UI.Components.MainMenu
                     break;
                 case UpdateStatus.Failed:
                     File.Delete(Environment.CurrentDirectory + @"\XeresUpdate.zip");
+                    if (GUI.Button(new Rect(Screen.width * .5f - 150f, Screen.height * .5f - 50, 300f, 150), "Continue"))
+                    {
+                        //GameObject.Destroy("XeresUIManager");
+                        GameObject.Find("XeresUIManager").AddComponent<PreferenceSetter>();
+                        GameObject.Find("XeresUIManager").AddComponent<MainMenuButtons>();
+                        GameObject.Find("XeresUIManager").AddComponent<Title>();
+                        GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<StartUp>());
+                        GameObject.Destroy(GameObject.Find("updater"));
+                    }
                     GUI.Box(GUIRect, "Update failed?");
                     break;
                 case UpdateStatus.NeedRestart:
