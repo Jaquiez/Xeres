@@ -2,6 +2,7 @@
 using ExitGames.Client.Photon;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 public abstract class Setting
 {
 
@@ -23,7 +24,17 @@ public abstract class Setting
 
     public abstract Hashtable getTempUserData(string filename);
 
-    public abstract void createEmptyJSON();
+    public void saveHashtableToFile(Hashtable hashtable, string file)
+    {
+        List<string> lines = new List<string>();
+        foreach (var entry in hashtable)
+        {
+            lines.Add(entry.Key + ":" + entry.Value);
+        }
+        File.WriteAllLines(configDirectory + file + ".txt", lines.ToArray());
+    }
+
+    public abstract void createEmptyFile(string name);
 
     public Hashtable formatText(string fileName)
     {

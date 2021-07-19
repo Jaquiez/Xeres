@@ -29,16 +29,27 @@ namespace Xeres.CommandExtensions.Commands
                 if(setting.name.Equals("HumanSet"))
                 {
                     string url = "";
-                    foreach(DictionaryEntry entry in setting.userData)
+                    ExitGames.Client.Photon.Hashtable entries = setting.getTempUserData("Skinset" + args);
+                    foreach(DictionaryEntry entry in entries)
                     {
                         url += entry.Value + ",";
                     }
-                    url.Substring(0, url.LastIndexOf(',')-1);
+                    url.Substring(0, url.LastIndexOf(','));
                     addLINE("Adding " + url);
-                    
-                    GameObject.FindGameObjectWithTag("Player").GetComponent<HERO>().photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { -1, url });
+
+                    GameObject[] array2 = GameObject.FindGameObjectsWithTag("Player");
+                    foreach (GameObject go in array2)
+                    {
+                        if (go.GetPhotonView().isMine)
+                        {
+                            go.GetComponent<HERO>().photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { -1, url });
+                        }
+                    }
+
+
                 }
             }
         }
+
     }
 }

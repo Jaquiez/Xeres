@@ -27,8 +27,7 @@ namespace Xeres.Options.Settings
         {
             throw new NotImplementedException();
         }
-
-        public override void createEmptyJSON()
+        public override void createEmptyFile(string filename)
         {
             throw new NotImplementedException();
         }
