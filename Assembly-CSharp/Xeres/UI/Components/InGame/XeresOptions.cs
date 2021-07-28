@@ -17,27 +17,35 @@ namespace Xeres.UI.Components.MainMenu
         string[] sections;
         private static string skinDirectory;
         private static ExitGames.Client.Photon.Hashtable currentSkinSet;
-        private static string currentSetName;
-        private static string currentSection;
+        private static string currentSection;       
         private static string currentSkinSection;
-
+        //Human Set variables
+        private static string currentHumanSetName;
         private static Setting humanSetting;
+        //Titan Set variables
+        private static string currentTitanSetName;
+        private static Setting titanSetting;
         public void Start()
         {
             sections = new string[] { "Skin sets", "Titan settings", "Misc" };
             currentSection = sections[0];
-            skinDirectory = Application.dataPath + @"/Config/HumanSkinSets/";
+            skinDirectory = Application.dataPath + @"/Config/SkinSets/HumanSkinSets/";
             foreach (Setting setting in GameObject.Find("XeresManager").GetComponent<Options.SettingHandler>().settings)
             {
-                if (setting.name.Equals("HumanSet"))
+                switch(setting.name)
                 {
-                    currentSkinSet = setting.userData;
-                    humanSetting = setting;
+                    case "HumanSet":
+                        currentSkinSet = setting.userData;
+                        humanSetting = setting;
+                        break;
+                    case "Titan":
+
+                        break;
                 }
             }
             currentSection = "Skin sets";
             currentSkinSection = "Human";
-            currentSetName = "SkinSet1";
+            currentHumanSetName = "SkinSet1";
         }
         public void OnGUI()
         {
@@ -64,7 +72,7 @@ namespace Xeres.UI.Components.MainMenu
                 case "Skin sets":
                     drawSkinSets();
                     break;
-                case "Titan settings":
+                case "Multiplayer Settings":
                     break;
                 case "Misc":
                     break;
@@ -85,7 +93,7 @@ namespace Xeres.UI.Components.MainMenu
                     switch (setting.name)
                     {
                         case "HumanSet":
-                            setting.saveHashtableToFile(currentSkinSet, currentSetName);
+                            setting.saveHashtableToFile(currentSkinSet, currentHumanSetName);
                             break;
                         default:
                             break;
@@ -99,7 +107,7 @@ namespace Xeres.UI.Components.MainMenu
                     switch (setting.name)
                     {
                         case "HumanSet":
-                            currentSkinSet = setting.getTempUserData(currentSetName);
+                            currentSkinSet = setting.getTempUserData(currentHumanSetName);
                             break;
                         default:
                             break;
@@ -134,6 +142,7 @@ namespace Xeres.UI.Components.MainMenu
                     drawHumanSkinSets();
                     break;
                 case "Titan":
+                    drawTitanSkinSets();
                     break;
                 case "Map":
                     break;
@@ -157,24 +166,24 @@ namespace Xeres.UI.Components.MainMenu
             }
             GUILayout.Space(5f);
             GUILayout.BeginHorizontal();
-            if(GUILayout.Button(currentSetName))
+            if(GUILayout.Button(currentHumanSetName))
             {
-                if (skinsets.IndexOf(currentSetName) + 1 < skinsets.ToArray().Length)
+                if (skinsets.IndexOf(currentHumanSetName) + 1 < skinsets.ToArray().Length)
                 {
-                    currentSetName = skinsets[skinsets.IndexOf(currentSetName) + 1];
-                    currentSkinSet = humanSetting.getTempUserData(currentSetName);
+                    currentHumanSetName = skinsets[skinsets.IndexOf(currentHumanSetName) + 1];
+                    currentSkinSet = humanSetting.getTempUserData(currentHumanSetName);
                 }
                 else
                 {
-                    currentSetName = skinsets[0];
-                    currentSkinSet = humanSetting.getTempUserData(currentSetName);
+                    currentHumanSetName = skinsets[0];
+                    currentSkinSet = humanSetting.getTempUserData(currentHumanSetName);
                 }
 
             }
             if(GUILayout.Button("Create New Set"))
             {
                 humanSetting.createEmptyFile("SkinSet" + (skinsets.ToArray().Length+1));
-                currentSetName = "SkinSet" + (skinsets.ToArray().Length + 1);
+                currentHumanSetName = "SkinSet" + (skinsets.ToArray().Length + 1);
             }
             GUILayout.EndHorizontal();
             GUILayout.Space(10f);
@@ -193,5 +202,11 @@ namespace Xeres.UI.Components.MainMenu
             }
             GUILayout.EndScrollView();
         }
+
+        public static void drawTitanSkinSets()
+        {
+
+        }
+
     }
 }

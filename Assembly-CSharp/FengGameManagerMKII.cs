@@ -5271,13 +5271,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
 
             if (isAssetLoaded)
             {
-                if (!GameObject.Find("XeresUIManager") && Application.loadedLevelName != "SnapShot")
-                {
-                    XeresUIManager = new GameObject("XeresUIManager");
-                    XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.PreferenceSetter>();
-                    XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.MainMenuButtons>();
-                    XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.Title>();
-                }
+
                 
                 string text = GameObject.Find("VERSION").GetComponent<UILabel>().text;
                 if (text != null)
@@ -8917,11 +8911,11 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
         }
         GameObject.Destroy(GameObject.Find("XeresUIManager"));
         //GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<Xeres.UI.Components.MainMenu.MultiplayerPanel>());
-        //GameObject uimanager = new GameObject("XeresUIManager");
-        //uimanager.AddComponent<Xeres.UI.Components.MainMenu.LoadingScreen>();
-        XeresUIManager = new GameObject("XeresUIManager");
-        GameObject.DontDestroyOnLoad(XeresUIManager);
-        XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.LoadingScreen>();
+        GameObject uimanager = new GameObject("XeresUIManager");
+        uimanager.AddComponent<Xeres.UI.Components.MainMenu.LoadingScreen>();
+        //XeresUIManager = new GameObject("XeresUIManager");
+        //GameObject.DontDestroyOnLoad(XeresUIManager);
+        //GameObject.Find("XeresUIManager").AddComponent<Xeres.UI.Components.MainMenu.LoadingScreen>();
     }
 
     public void OnLeftLobby()
@@ -11293,7 +11287,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
     {
         if (isAssetLoaded)
         {
-            UnityEngine.Object.Instantiate(RCassets.Load("backgroundCamera"));
+
+            //UnityEngine.Object.Instantiate(RCassets.Load("backgroundCamera"));
         }
     }
 

@@ -9,6 +9,7 @@ namespace Xeres.UI.Components.MainMenu
         public void Start()
         {
             GUIRect = new Rect(Screen.width - Screen.width*.3f, Screen.height - Screen.height *2/3f, Screen.width * .3f, Screen.height*2/3f);
+            buttonNames = new string[] { "Singleplayer", "Multiplayer", "Options", "Tools", "Quit" };
         }
         public void OnGUI()
         {

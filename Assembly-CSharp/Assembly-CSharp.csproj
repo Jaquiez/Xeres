@@ -126,7 +126,8 @@
     <Compile Include="Xeres\Options\Setting.cs" />
     <Compile Include="Xeres\Options\SettingHandler.cs" />
     <Compile Include="Xeres\Options\Settings\MainSettings.cs" />
-    <Compile Include="Xeres\Options\Settings\SkinSetting.cs" />
+    <Compile Include="Xeres\Options\Settings\HumanSkinSetting.cs" />
+    <Compile Include="Xeres\Options\Settings\TitanSkinSetting.cs" />
     <Compile Include="Xeres\Tools\ChatExtensions.cs" />
     <Compile Include="Xeres\Tools\XeresScoreboard.cs" />
     <Compile Include="Xeres\UI\Components\InGame\XeresOptions.cs" />

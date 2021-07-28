@@ -57,27 +57,39 @@ public class UIMainReferences : MonoBehaviour
 
     private void Start()
     {
-        GameObject updater = new GameObject("updater");
-        updater.AddComponent<Xeres.AutoUpdater.UpdateManager>();
+
 
         string versionShow = "8/12/2015";
         string versionForm = "08122015";
         fengVersion = "01042015";
         NGUITools.SetActive(this.panelMain, true);
-
-
         if (!GameObject.Find("XeresManager"))
         {
+            GameObject updater = new GameObject("updater");
+            updater.AddComponent<Xeres.AutoUpdater.UpdateManager>();
             Xeres.UI.XeresAssetHandler.Init();
             XeresManager = new GameObject("XeresManager");
-            DontDestroyOnLoad(XeresManager);
             XeresManager.AddComponent<Xeres.CommandExtensions.CommandHandler>();
             XeresManager.AddComponent<Xeres.UserPrefs.PropertyHandler>();
             XeresManager.AddComponent<Xeres.Options.SettingHandler>();
-            XeresUIManager = new GameObject("XeresUIManager");
-            DontDestroyOnLoad(XeresUIManager);
-            XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.StartUp>();
+            DontDestroyOnLoad(XeresManager);
         }
+
+        if (!GameObject.Find("XeresUIManager")  && IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.STOP )
+        {
+            XeresUIManager = new GameObject("XeresUIManager");
+            if(GameObject.Find("updater"))
+            {
+                XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.StartUp>();
+            }
+            else
+            {
+                GameObject.Find("XeresUIManager").AddComponent<Xeres.UI.Components.MainMenu.PreferenceSetter>();
+                GameObject.Find("XeresUIManager").AddComponent<Xeres.UI.Components.MainMenu.MainMenuButtons>();
+                GameObject.Find("XeresUIManager").AddComponent<Xeres.UI.Components.MainMenu.Title>();
+            }
+        }
+
         if ((version == null) || version.StartsWith("error"))
         {
             GameObject.Find("VERSION").GetComponent<UILabel>().text = "Verification failed. Please clear your cache or try another browser";
@@ -102,6 +114,7 @@ public class UIMainReferences : MonoBehaviour
             base.StartCoroutine(this.request(versionShow, versionForm));
             FengGameManagerMKII.loginstate = 0;
         }
+
         /*
         NGUITools.SetActive(GameObject.Find("UIRefer").GetComponent<UIMainReferences>().panelMultiStart, false);
         NGUITools.SetActive(GameObject.Find("UIRefer").GetComponent<UIMainReferences>().panelMultiROOM, false);

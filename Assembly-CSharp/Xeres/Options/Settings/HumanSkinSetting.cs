@@ -6,7 +6,7 @@ using ExitGames.Client.Photon;
 using System.Collections.Generic;
 namespace Xeres.Options.Settings
 {
-    public class SkinSetting : Setting
+    public class HumanSkinSetting : Setting
     {
         private static Hashtable rawSetting;
 
@@ -16,7 +16,7 @@ namespace Xeres.Options.Settings
             set => rawSetting = value;
         }
 
-        public override string configDirectory => Application.dataPath + @"/Config/HumanSkinSets/";
+        public override string configDirectory => Application.dataPath + @"/Config/SkinSets/HumanSkinSets/";
         public override string name => "HumanSet";
 
         public string currentSet;
@@ -28,7 +28,7 @@ namespace Xeres.Options.Settings
         }
         public override Hashtable getTempUserData(string fileName)
         {
-            if (File.Exists(Application.dataPath + @"/Config/HumanSkinSets/" + fileName + ".txt"))
+            if (File.Exists(Application.dataPath + @"/Config/SkinSets/HumanSkinSets/" + fileName + ".txt"))
             {
                 return formatText(fileName + ".txt");
             }
