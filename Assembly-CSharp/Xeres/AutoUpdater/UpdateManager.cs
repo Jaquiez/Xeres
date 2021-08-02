@@ -21,13 +21,6 @@ namespace Xeres.AutoUpdater
             localVersion = File.ReadAllText(Application.dataPath + @"/Version.txt");
             status = UpdateStatus.Checking;
             gameZip = Environment.CurrentDirectory + @"\XeresUpdate.zip";
-            /*
-            if(!checkForInternetConnect())
-            {
-                status = UpdateStatus.Updated;
-            }
-            Console.WriteLine("STATUS " + status);*/
-
             StartCoroutine(checkVersion());
         }
         private IEnumerator checkVersion()
@@ -69,19 +62,30 @@ namespace Xeres.AutoUpdater
             ZipFile file = new ZipFile(gameZip);
             foreach (ZipEntry entry in file)
             {
-                if (entry.Name.Contains("Data") && !entry.Name.Contains("Config") && !entry.Name.Contains("dll") && !entry.Name.Contains("output") && !entry.Name.Contains(".assets") && !entry.Name.Contains(@"/Resources/unity")|| entry.Name.Contains("Assembly"))
+                if (entry.Name.Contains("Data") && !entry.Name.Contains("dll") && !entry.Name.Contains("output") && !entry.Name.Contains(".assets") && !entry.Name.Contains(@"/Resources/unity")|| entry.Name.Contains("Assembly"))
                 {
                     if (!entry.IsDirectory)
                     {
                         Console.WriteLine(entry.Name);
+                        Console.WriteLine(Path.GetDirectoryName(Path.Combine(Environment.CurrentDirectory, entry.Name)));
+                        Directory.CreateDirectory(Path.GetDirectoryName(Path.Combine(Environment.CurrentDirectory, entry.Name)));
                         Stream stream = file.GetInputStream(entry);
                         FileStream streamWriter = new FileStream(Path.Combine(Environment.CurrentDirectory, entry.Name),
                                        FileMode.OpenOrCreate,
                                        FileAccess.ReadWrite,
                                        FileShare.None);//File.Create(Path.Combine(Environment.CurrentDirectory, entry.Name);
-                        if(!File.Exists(Path.Combine(Environment.CurrentDirectory, entry.Name)))
+
+                        if (!File.Exists(Path.Combine(Environment.CurrentDirectory, entry.Name)))
                         {
-                            File.Create(Path.Combine(Environment.CurrentDirectory, entry.Name));
+                            try
+                            {
+                                File.Create(Path.Combine(Environment.CurrentDirectory, entry.Name));
+                            }
+                            catch (Exception err)
+                            {
+                                Console.Write(err);
+                                status = UpdateStatus.Failed;
+                            }
                         }
                         StreamUtils.Copy(stream, streamWriter, new byte[4096]);
 

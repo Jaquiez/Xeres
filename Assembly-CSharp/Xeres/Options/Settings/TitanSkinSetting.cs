@@ -51,7 +51,7 @@ namespace Xeres.Options.Settings
         }
         public override void createEmptyFile(string fileName)
         {
-            string[] keys = {"Hair","HairModel","Eye","Body","Eren","Annie","Colossal" };
+            string[] keys = {"Hair:,,,,,", "HairModel:,,,,,", "Eye:,,,,,", "Body:,,,,,", "Eren:", "Annie:", "Colossal:" };
             File.WriteAllLines(configDirectory + fileName + ".txt", keys);
         }
 
