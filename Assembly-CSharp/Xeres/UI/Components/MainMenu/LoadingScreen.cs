@@ -19,7 +19,6 @@ namespace Xeres.UI.Components.MainMenu
             if(isLoaded)
             {
                 countdown--;
-
             }
         }
         public void Start()
@@ -39,7 +38,7 @@ namespace Xeres.UI.Components.MainMenu
         }
         public void OnGUI()
         {
-            if((num==-1 || timer-lastTime>5) && !isLoaded)
+            if ((num==-1 || timer-lastTime>5) && !isLoaded)
             {
                 num = Convert.ToInt32(UnityEngine.Random.RandomRange(0, loadingScreens.Count));
                 lastTime = timer;
@@ -51,7 +50,9 @@ namespace Xeres.UI.Components.MainMenu
             }          
             else
             {
-                GameObject.Destroy(GameObject.Find("XeresUIManager"));
+                GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<LoadingScreen>());
+                GameObject.Find("XeresUIManager").AddComponent<InGame.Console>();
+                GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<InGame.Console>());
                 //Attempted fading loading screen upon completion, not working for some reason
                 /*
                 isLoaded = true;

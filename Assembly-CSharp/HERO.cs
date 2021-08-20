@@ -16,6 +16,9 @@ using Xft;
 
 public class HERO : Photon.MonoBehaviour
 {
+    //Xeres variables
+    private static bool skinLoadedOnce = false;
+    //The rest
     private HERO_STATE _state;
     private bool almostSingleHook;
     private string attackAnimation;
@@ -2912,7 +2915,12 @@ public class HERO : Photon.MonoBehaviour
                         if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[2]))
                         {
                             iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTextureScale = (Vector2) (iteratorVariable15.material.mainTextureScale * 8f);
+                            //here ?                       WEIRD EYE SCALING BULLSHIT :(
+                            if(!skinLoadedOnce)
+                            {
+                                iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
+                                skinLoadedOnce = true;
+                            }
                             iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
                             iteratorVariable15.material.mainTexture = iteratorVariable19;
                             FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[2], iteratorVariable15.material);
@@ -2933,6 +2941,7 @@ public class HERO : Photon.MonoBehaviour
                     iteratorVariable15.enabled = false;
                 }
             }
+
             else if (iteratorVariable15.name.Contains(FengGameManagerMKII.s[3]))
             {
                 if ((iteratorVariable2[3].EndsWith(".jpg") || iteratorVariable2[3].EndsWith(".png")) || iteratorVariable2[3].EndsWith(".jpeg"))
@@ -2946,11 +2955,12 @@ public class HERO : Photon.MonoBehaviour
                         if (!FengGameManagerMKII.linkHash[0].ContainsKey(iteratorVariable2[3]))
                         {
                             iteratorVariable1 = true;
-                            iteratorVariable15.material.mainTextureScale = (Vector2) (iteratorVariable15.material.mainTextureScale * 8f);
+                            iteratorVariable15.material.mainTextureScale = (Vector2)(iteratorVariable15.material.mainTextureScale * 8f);
                             iteratorVariable15.material.mainTextureOffset = new Vector2(0f, 0f);
                             iteratorVariable15.material.mainTexture = iteratorVariable21;
                             FengGameManagerMKII.linkHash[0].Add(iteratorVariable2[3], iteratorVariable15.material);
                             iteratorVariable15.material = (Material) FengGameManagerMKII.linkHash[0][iteratorVariable2[3]];
+
                         }
                         else
                         {
@@ -3307,6 +3317,7 @@ public class HERO : Photon.MonoBehaviour
         {
             FengGameManagerMKII.instance.unloadAssets();
         }
+        //Xeres checker
     }
 
     [RPC]
@@ -3316,6 +3327,7 @@ public class HERO : Photon.MonoBehaviour
         {
             base.StartCoroutine(this.loadskinE(horse, url));
         }
+
     }
 
     public void markDie()
@@ -5153,6 +5165,7 @@ public class HERO : Photon.MonoBehaviour
 
     private void Start()
     {
+        skinLoadedOnce = false;
         FengGameManagerMKII.instance.addHero(this);
         if (((LevelInfo.getInfo(FengGameManagerMKII.level).horse || (RCSettings.horseMode == 1)) && (IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.MULTIPLAYER)) && base.photonView.isMine)
         {

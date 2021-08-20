@@ -25,11 +25,15 @@ namespace Xeres.UI.Components.MainMenu
         //Titan Set variables
         private static string currentTitanSetName;
         private static Setting titanSetting;
+        //
+        private static Setting networkSetting;
         //overall
         public static string currentSetName;
+        public static string generalSection;
+
         public void Start()
         {
-            sections = new string[] { "Skin sets", "Titan settings", "Misc" };
+            sections = new string[] { "General", "Skin Sets", "Misc" };
             currentSection = sections[0];
             skinDirectory = Application.dataPath + @"/Config/SkinSets/HumanSkinSets/";
             foreach (Setting setting in GameObject.Find("XeresManager").GetComponent<Options.SettingHandler>().settings)
@@ -45,11 +49,14 @@ namespace Xeres.UI.Components.MainMenu
                         titanSetting = setting;
                         currentTitanSetName = "SkinSet1";
                         break;
+                    case "Networking":
+                        networkSetting = setting;
+                        break;
                 }
             }
-            currentSection = "Skin sets";
+            currentSection = "General";
+            generalSection = "Graphics";
             currentSkinSection = "Human";
-
             currentSetName = currentHumanSetName;
         }
         public void OnGUI()
@@ -74,10 +81,11 @@ namespace Xeres.UI.Components.MainMenu
 
             switch(currentSection)
             {
-                case "Skin sets":                   
-                    drawSkinSets();
+                case "General":
+                    drawGeneralSettings();
                     break;
-                case "Multiplayer Settings":
+                case "Skin Sets":
+                    drawSkinSets();
                     break;
                 case "Misc":
                     break;
@@ -136,6 +144,88 @@ namespace Xeres.UI.Components.MainMenu
             }
             GUILayout.EndHorizontal();
             GUILayout.EndArea();
+        }
+        private static void drawGeneralSettings()
+        {
+            GUILayout.Space(5);
+            GUILayout.BeginHorizontal();
+            foreach (string section in new[] { "Graphics", "Rebinds", "Sound","Networking","Xeres" })
+            {
+                if (GUILayout.Button(section))
+                {
+                    generalSection = section;
+                }
+            }
+            GUILayout.EndHorizontal();
+            switch (generalSection)
+            {
+                case "Graphics":
+                    break;
+                case "Rebinds":
+                    break;
+                case "Sound":
+                    break;
+                case "Xeres":
+                    drawXeresOptions();
+                    break;
+                case "Networking":
+                    drawNetworkOptions();
+                    break;
+                default:
+                    break;
+            }
+        }
+        private static void drawXeresOptions()
+        {
+            GUILayout.Space(5);
+            
+        }
+        private static void drawNetworkOptions()
+        {
+            GUILayout.Space(5);
+            ExitGames.Client.Photon.Hashtable table = networkSetting.getTempUserData("Network");
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Connection Protocol");
+            if(GUILayout.Button(table["ConnectionProtocol"].ToString()))
+            {
+                if (table["ConnectionProtocol"] as string == "UDP")
+                {
+                    PhotonNetwork.SwitchToProtocol(ConnectionProtocol.Tcp);
+                    table["ConnectionProtocol"] = "TCP";
+                }
+                else
+                {
+                    PhotonNetwork.SwitchToProtocol(ConnectionProtocol.Udp);
+                    table["ConnectionProtocol"] = "UDP";
+                }
+            }
+            GUILayout.Label("Default Region");
+            if (GUILayout.Button(table["DefaultRegion"].ToString()))
+            {
+                switch(table["DefaultRegion"] as string)
+                {
+                    case "US":
+                        table["DefaultRegion"] = "EU";
+                        break;
+                    case "EU":
+                        table["DefaultRegion"] = "AS";
+                        break;
+                    case "AS":
+                        table["DefaultRegion"] = "SA";
+                        break;
+                    case "SA":
+                        table["DefaultRegion"] = "US";
+                        break;
+                    default:
+                        table["DefaultRegion"] = "US";
+                        break;
+                }
+            }
+            GUILayout.EndHorizontal();
+
+            networkSetting.saveHashtableToFile(table,"Network");
+
+
         }
         private static void drawSkinSets()
         {
@@ -201,7 +291,6 @@ namespace Xeres.UI.Components.MainMenu
             GUILayout.BeginHorizontal();
             if (GUILayout.Button(currentSetName))
             {
-                Console.WriteLine(currentSetName);
                 if (skinsets.IndexOf(currentSetName) + 1 < skinsets.ToArray().Length)
                 {
                     currentSetName = skinsets[skinsets.IndexOf(currentSetName) + 1];
@@ -249,7 +338,6 @@ namespace Xeres.UI.Components.MainMenu
                         replace += skins[k] + ",";
                     }
                     replace = replace.Substring(0, replace.LastIndexOf(','));
-                    Console.WriteLine(replace);
                     currentSkinSet[key] = replace;
                 }
                 else
@@ -262,58 +350,6 @@ namespace Xeres.UI.Components.MainMenu
             }
             GUILayout.EndScrollView();
         }
-        /*
-        private static void drawHumanSkinSets()
-        {
-            List<string> skinsets = new List<string>(Directory.GetFiles(skinDirectory));
-            for(int k =0; k<skinsets.ToArray().Length; k++)
-            {
-                if (!skinsets[k].EndsWith(".txt"))
-                    skinsets.Remove(skinsets[k]);
-                else
-                {
-                    skinsets[k] = skinsets[k].Replace(".txt", "");
-                    skinsets[k] = skinsets[k].Substring(1 + skinsets[k].LastIndexOf("/"));
-                }
-            }
-            GUILayout.Space(5f);
-            GUILayout.BeginHorizontal();
-            if(GUILayout.Button(currentHumanSetName))
-            {
-                if (skinsets.IndexOf(currentHumanSetName) + 1 < skinsets.ToArray().Length)
-                {
-                    currentHumanSetName = skinsets[skinsets.IndexOf(currentHumanSetName) + 1];
-                    currentSkinSet = humanSetting.getTempUserData(currentHumanSetName);
-                }
-                else
-                {
-                    currentHumanSetName = skinsets[0];
-                    currentSkinSet = humanSetting.getTempUserData(currentHumanSetName);
-                }
-
-            }
-            if(GUILayout.Button("Create New Set"))
-            {
-                humanSetting.createEmptyFile("SkinSet" + (skinsets.ToArray().Length+1));
-                currentHumanSetName = "SkinSet" + (skinsets.ToArray().Length + 1);
-            }
-            GUILayout.EndHorizontal();
-            GUILayout.Space(10f);
-            var keys = currentSkinSet.StripToStringKeys();
-
-            GUIStyle label = new GUIStyle("label");
-            label.alignment = TextAnchor.MiddleCenter;
-            scrollPos =GUILayout.BeginScrollView(scrollPos);
-            foreach(var key in keys.Keys)
-            {
-                GUILayout.BeginHorizontal();               
-                GUILayout.Label(key.ToString(),label, new GUILayoutOption[] { GUILayout.Width(100f) });
-                currentSkinSet[key] = GUILayout.TextField(currentSkinSet[key].ToString(), new GUILayoutOption[] { });
-                GUILayout.EndHorizontal();
-                GUILayout.Space(10f);
-            }
-            GUILayout.EndScrollView();
-        }*/
 
     }
 }

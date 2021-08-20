@@ -12,18 +12,49 @@ namespace Xeres.UI.Components.MainMenu
         ExitGames.Client.Photon.Hashtable settings;
         string[] regions= { "US", "EU", "AS", "SA" };
         int _region;
+        private Setting network;
+        private static int port;
         public void Start()
         {
-            if(!PhotonNetwork.connected)
+            Setting network = new Xeres.Options.Settings.NetworkSetting();
+            if (network.getTempUserData("Network")["ConnectionProtocol"] as string == "UDP")
+                port = 5055;
+            else
+                port = 4530;
+            Console.WriteLine($"Connection Protocol {network.getTempUserData("Network")["ConnectionProtocol"] as string} Port {port}");
+            if (!PhotonNetwork.connected)
             {
-                PhotonNetwork.ConnectToMaster("142.44.242.29", 5055, FengGameManagerMKII.applicationId, UIMainReferences.version);
+
+                switch (network.getTempUserData("Network")["DefaultRegion"] as string)
+                {
+                    case "US":
+                        PhotonNetwork.Disconnect();
+                        PhotonNetwork.ConnectToMaster("142.44.242.29", port, FengGameManagerMKII.applicationId, UIMainReferences.version);
+                        _region = 0;
+                        break;
+                    case "EU":
+                        PhotonNetwork.Disconnect();
+                        PhotonNetwork.ConnectToMaster("135.125.239.180", port, FengGameManagerMKII.applicationId, UIMainReferences.version);
+                        _region = 1;
+                        break;
+                    case "AS":
+                        PhotonNetwork.Disconnect();
+                        PhotonNetwork.ConnectToMaster("51.79.164.137", port, FengGameManagerMKII.applicationId, UIMainReferences.version);
+                        _region = 2;
+                        break;
+                    case "SA":
+                        PhotonNetwork.Disconnect();
+                        PhotonNetwork.ConnectToMaster("172.107.193.233", port, FengGameManagerMKII.applicationId, UIMainReferences.version);
+                        _region = 3;
+                        break;
+                    default:
+                        break;
+                }
             }
             settings = new ExitGames.Client.Photon.Hashtable();
             settings.Add("filter", "");
             settings.Add("showPWD", true);
             settings.Add("showFullRooms", true);
-            _region = 0;
-            //scrollPos ;
         }
         public void OnGUI()
         {
@@ -55,22 +86,22 @@ namespace Xeres.UI.Components.MainMenu
                     {
                         case "US":
                             PhotonNetwork.Disconnect();
-                            PhotonNetwork.ConnectToMaster("142.44.242.29", 5055, FengGameManagerMKII.applicationId, UIMainReferences.version);
+                            PhotonNetwork.ConnectToMaster("142.44.242.29", port, FengGameManagerMKII.applicationId, UIMainReferences.version);
                             _region = 0;
                             break;
                         case "EU":
                             PhotonNetwork.Disconnect();
-                            PhotonNetwork.ConnectToMaster("135.125.239.180", 5055, FengGameManagerMKII.applicationId, UIMainReferences.version);
+                            PhotonNetwork.ConnectToMaster("135.125.239.180", port, FengGameManagerMKII.applicationId, UIMainReferences.version);
                             _region = 1;
                             break;
                         case "AS":
                             PhotonNetwork.Disconnect();
-                            PhotonNetwork.ConnectToMaster("51.79.164.137", 5055, FengGameManagerMKII.applicationId, UIMainReferences.version);
+                            PhotonNetwork.ConnectToMaster("51.79.164.137", port, FengGameManagerMKII.applicationId, UIMainReferences.version);
                             _region = 2;
                             break;
                         case "SA":
                             PhotonNetwork.Disconnect();
-                            PhotonNetwork.ConnectToMaster("172.107.193.233", 0x13bf, FengGameManagerMKII.applicationId, UIMainReferences.version);
+                            PhotonNetwork.ConnectToMaster("172.107.193.233", port, FengGameManagerMKII.applicationId, UIMainReferences.version);
                             _region = 3;
                             break;
                         default:
@@ -121,6 +152,7 @@ namespace Xeres.UI.Components.MainMenu
             }
             if(GUILayout.Button("Back",button))
             {
+                PhotonNetwork.Disconnect();
                 GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<MultiplayerPanel>());
                 GameObject.Find("XeresUIManager").AddComponent<Xeres.UI.Components.MainMenu.PreferenceSetter>();
                 GameObject.Find("XeresUIManager").AddComponent<Xeres.UI.Components.MainMenu.MainMenuButtons>();

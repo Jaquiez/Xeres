@@ -48,7 +48,11 @@ public static class PhotonNetwork
         photonMono = obj2.AddComponent<PhotonHandler>();
         obj2.name = "PhotonMono";
         obj2.hideFlags = HideFlags.HideInHierarchy;
-        networkingPeer = new NetworkingPeer(photonMono, string.Empty, ConnectionProtocol.Udp);
+        Setting setting = new Xeres.Options.Settings.NetworkSetting();
+        if (setting.getTempUserData("Network")["ConnectionProtocol"] as string == "UDP")
+            networkingPeer = new NetworkingPeer(photonMono, string.Empty, ConnectionProtocol.Udp);
+        else
+            networkingPeer = new NetworkingPeer(photonMono, string.Empty, ConnectionProtocol.Tcp);
         CustomTypes.Register();
     }
 

@@ -8803,7 +8803,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                         this.DestroyAllExistingCloths();
                         UnityEngine.Object.Destroy(GameObject.Find("MultiplayerManager"));
                         Application.LoadLevel("menu");
-                        GameObject.Destroy(XeresUIManager);
+                        //GameObject.Destroy(XeresUIManager);
                     }
                 }
             }
@@ -8910,8 +8910,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             ServerRequestAuthentication(PrivateServerAuthPass);
         }
         GameObject.Destroy(GameObject.Find("XeresUIManager"));
-        //GameObject.Destroy(GameObject.Find("XeresUIManager").GetComponent<Xeres.UI.Components.MainMenu.MultiplayerPanel>());
         GameObject uimanager = new GameObject("XeresUIManager");
+        DontDestroyOnLoad(uimanager);
         uimanager.AddComponent<Xeres.UI.Components.MainMenu.LoadingScreen>();
         //XeresUIManager = new GameObject("XeresUIManager");
         //GameObject.DontDestroyOnLoad(XeresUIManager);
@@ -8942,11 +8942,7 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             this.DestroyAllExistingCloths();
             UnityEngine.Object.Destroy(GameObject.Find("MultiplayerManager"));
             Application.LoadLevel("menu");
-            /*
-            XeresUIManager = new GameObject("XeresUIManager");
-            XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.PreferenceSetter>();
-            XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.MainMenuButtons>();
-            XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.Title>();*/
+            GameObject.Destroy(GameObject.Find("XeresUIManager"));
         }
     }
 
@@ -9382,6 +9378,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
                 }
             }
         }
+        string playerName = (string)player.customProperties["name"];
+        Xeres.Tools.Logger.addMessage(playerName.hexColor() + " has joined the server");
         this.RecompilePlayerList(0.1f);
     }
 
@@ -9411,6 +9409,8 @@ public class FengGameManagerMKII : Photon.MonoBehaviour
             int[] numArray2 = new int[] { RCextensions.returnIntFromObject(player.customProperties[PhotonPlayerProperty.kills]), RCextensions.returnIntFromObject(player.customProperties[PhotonPlayerProperty.deaths]), RCextensions.returnIntFromObject(player.customProperties[PhotonPlayerProperty.max_dmg]), RCextensions.returnIntFromObject(player.customProperties[PhotonPlayerProperty.total_dmg]) };
             this.PreservedPlayerKDR.Add(key, numArray2);
         }
+        string playerName = (string)player.customProperties["name"];
+        Xeres.Tools.Logger.addMessage(playerName.hexColor() + " has left the server");
         this.RecompilePlayerList(0.1f);
     }
 

@@ -78,7 +78,8 @@ public class UIMainReferences : MonoBehaviour
         if (!GameObject.Find("XeresUIManager")  && IN_GAME_MAIN_CAMERA.gametype == GAMETYPE.STOP )
         {
             XeresUIManager = new GameObject("XeresUIManager");
-            if(GameObject.Find("updater"))
+            DontDestroyOnLoad(XeresUIManager);
+            if (GameObject.Find("updater"))
             {
                 XeresUIManager.AddComponent<Xeres.UI.Components.MainMenu.StartUp>();
             }

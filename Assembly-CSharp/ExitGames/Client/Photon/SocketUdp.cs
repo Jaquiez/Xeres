@@ -19,10 +19,10 @@
             {
                 base.Listener.DebugReturn(DebugLevel.ALL, "CSharpSocket: UDP, Unity3d.");
             }
-            base.Protocol = ConnectionProtocol.Udp;
+            //base.Protocol = ConnectionProtocol.Udp;
+            base.Protocol = ConnectionProtocol.Tcp;
             base.PollReceive = false;
         }
-
         public override bool Connect()
         {
             object syncer = this.syncer;

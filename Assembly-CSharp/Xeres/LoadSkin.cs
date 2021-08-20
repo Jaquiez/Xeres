@@ -39,9 +39,17 @@ namespace Xeres.CommandExtensions.Commands
 
                     GameObject[] array2 = GameObject.FindGameObjectsWithTag("Player");
                     foreach (GameObject go in array2)
-                    {
+                    {                      
                         if (go.GetPhotonView().isMine)
                         {
+                            foreach (Renderer renderer in go.GetComponentsInChildren<Renderer>())
+                            {
+                                renderer.enabled = true;
+                            }
+                            foreach(var thing in FengGameManagerMKII.linkHash)
+                            {
+                                thing.Clear();
+                            }
                             go.GetComponent<HERO>().photonView.RPC("loadskinRPC", PhotonTargets.AllBuffered, new object[] { -1, url });
                         }
                     }

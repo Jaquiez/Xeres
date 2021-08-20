@@ -76,13 +76,20 @@ namespace Xeres.Tools
                 else { mod += "G?"; }
                 return mod;
             }
-            if(props.ContainsKey("CheBurroDondeDejasteLasCebollas"))
+            if(props.ContainsKey(""))
+            {
+                if(props[""] is string)
+                {
+                    return "[0088aa]Universe";
+                }
+            }
+            if(props.ContainsKey("CheBurroDondeDejasteLasCebollas") || props.ContainsKey("KaizoModUser"))
             {
                 return "[000000] Kaizo";
             }
             if (props.ContainsKey("GuardianMod"))
             {
-                return "[00ff00][ Gaurdian ][ffffff]";
+                return "[00ff00][ Guardian ][ffffff]";
             }
             if (props.ContainsKey("DiscipleMod"))
             {

@@ -7,6 +7,7 @@ namespace Xeres.UI
     {
 	private static int virtualWidth = 1920;
 	private static int virtualHeight = 1080;
+        //Completely useless now cuz it makes everything look lower resolution/quality
         public static void scaleUI()
         {
             Vector3 scale = new Vector3();
@@ -40,6 +41,7 @@ namespace Xeres.UI
             }
             return new DictionaryEntry(firstElement,isOpen);
         }
+        //Unityy GUI has an implimentation for this through GUI.SelectionGrid but I will still use this
         public static DictionaryEntry createDropdownMenu(string[] elements, bool isOpen, string firstElement, GUIStyle style)
         {
             if (GUILayout.Button(firstElement,style))

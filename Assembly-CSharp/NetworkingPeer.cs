@@ -49,12 +49,12 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     private readonly Dictionary<string, int> rpcShortcuts;
     private Dictionary<int, object[]> tempInstantiationData;
     public static bool UsePrefabCache = true;
-
+    //Xeres logger
     static NetworkingPeer()
     {
         Dictionary<ConnectionProtocol, int> dictionary = new Dictionary<ConnectionProtocol, int>();
         dictionary.Add(ConnectionProtocol.Udp, 0x13c2);
-        dictionary.Add(ConnectionProtocol.Tcp, 0x11b5);
+        dictionary.Add(ConnectionProtocol.Tcp, 0x11B5);
         ProtocolToNameServerPort = dictionary;
     }
 
@@ -103,7 +103,8 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         }
         else
         {
-            Debug.LogError("Adding player twice: " + ID);
+            Xeres.Tools.Logger.addError("Adding player twice: " + ID);
+            //Xeres.Tools.Logger.addError("Adding player twice: " + ID);
         }
     }
 
@@ -132,7 +133,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (this.mLocalActor == null)
         {
-            Debug.LogWarning(string.Format("Local actor is null or not in mActors! mLocalActor: {0} mActors==null: {1} newID: {2}", this.mLocalActor, this.mActors == null, newID));
+            Xeres.Tools.Logger.addWarning(string.Format("Local actor is null or not in mActors! mLocalActor: {0} mActors==null: {1} newID: {2}", this.mLocalActor, this.mActors == null, newID));
         }
         if (this.mActors.ContainsKey(this.mLocalActor.ID))
         {
@@ -202,7 +203,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if ((view.ownerId != this.mLocalActor.ID) && !this.mLocalActor.isMasterClient)
         {
-            Debug.LogError(string.Concat(new object[] { "Cannot remove cached RPCs on a PhotonView thats not ours! ", view.owner, " scene: ", view.isSceneView }));
+            Xeres.Tools.Logger.addError(string.Concat(new object[] { "Cannot remove cached RPCs on a PhotonView thats not ours! ", view.owner, " scene: ", view.isSceneView }));
         }
         else
         {
@@ -214,12 +215,12 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (PhotonHandler.AppQuits)
         {
-            Debug.LogWarning("Ignoring Connect() because app gets closed. If this is an error, check PhotonHandler.AppQuits.");
+            Xeres.Tools.Logger.addWarning("Ignoring Connect() because app gets closed. If this is an error, check PhotonHandler.AppQuits.");
             return false;
         }
         if (PhotonNetwork.connectionStateDetailed == PeerStates.Disconnecting)
         {
-            Debug.LogError("Connect() failed. Can't connect while disconnecting (still). Current state: " + PhotonNetwork.connectionStateDetailed);
+            Xeres.Tools.Logger.addError("Connect() failed. Can't connect while disconnecting (still). Current state: " + PhotonNetwork.connectionStateDetailed);
             return false;
         }
         bool flag = base.Connect(serverAddress, string.Empty);
@@ -245,7 +246,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
 
     public override bool Connect(string serverAddress, string applicationName)
     {
-        Debug.LogError("Avoid using this directly. Thanks.");
+        Xeres.Tools.Logger.addError("Avoid using this directly. Thanks.");
         return false;
     }
 
@@ -253,7 +254,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (PhotonHandler.AppQuits)
         {
-            Debug.LogWarning("Ignoring Connect() because app gets closed. If this is an error, check PhotonHandler.AppQuits.");
+            Xeres.Tools.Logger.addWarning("Ignoring Connect() because app gets closed. If this is an error, check PhotonHandler.AppQuits.");
             return false;
         }
         this.IsUsingNameServer = true;
@@ -266,7 +267,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 int num = 0;
                 ProtocolToNameServerPort.TryGetValue(base.UsedProtocol, out num);
                 nameServerAddress = string.Format("{0}:{1}", nameServerAddress, num);
-                Debug.Log(string.Concat(new object[] { "Server to connect to: ", nameServerAddress, " settings protocol: ", PhotonNetwork.PhotonServerSettings.Protocol }));
+                Xeres.Tools.Logger.addMessage(string.Concat(new object[] { "Server to connect to: ", nameServerAddress, " settings protocol: ", PhotonNetwork.PhotonServerSettings.Protocol }));
             }
             if (!base.Connect(nameServerAddress, "ns"))
             {
@@ -281,7 +282,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (PhotonHandler.AppQuits)
         {
-            Debug.LogWarning("Ignoring Connect() because app gets closed. If this is an error, check PhotonHandler.AppQuits.");
+            Xeres.Tools.Logger.addWarning("Ignoring Connect() because app gets closed. If this is an error, check PhotonHandler.AppQuits.");
             return false;
         }
         this.IsUsingNameServer = true;
@@ -406,7 +407,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (playerId <= 0)
         {
-            Debug.LogError("Failed to Destroy objects of playerId: " + playerId);
+            Xeres.Tools.Logger.addError("Failed to Destroy objects of playerId: " + playerId);
         }
         else
         {
@@ -439,7 +440,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         {
             if (!PhotonHandler.AppQuits)
             {
-                Debug.LogWarning(string.Format("Can't execute Disconnect() while not connected. Nothing changed. State: {0}", this.State));
+                Xeres.Tools.Logger.addWarning(string.Format("Can't execute Disconnect() while not connected. Nothing changed. State: {0}", this.State));
             }
         }
         else
@@ -559,7 +560,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
             }
             if (resourceGameObject == null)
             {
-                Debug.LogError("PhotonNetwork error: Could not Instantiate the prefab [" + key + "]. Please verify you have this gameobject in a Resources folder.");
+                Xeres.Tools.Logger.addError("PhotonNetwork error: Could not Instantiate the prefab [" + key + "]. Please verify you have this gameobject in a Resources folder.");
                 return null;
             }
         }
@@ -599,7 +600,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
             }
             object[] args = new object[] { obj2, instantiationId, this.instantiatedObjects.Count, go, str2, PhotonNetwork.lastUsedViewSubId, PhotonNetwork.lastUsedViewSubIdStatic, this.photonViewList.Count };
-            Debug.LogError(string.Format("DoInstantiate re-defines a GameObject. Destroying old entry! New: '{0}' (instantiationID: {1}) Old: {3}. PhotonViews on old: {4}. instantiatedObjects.Count: {2}. PhotonNetwork.lastUsedViewSubId: {5} PhotonNetwork.lastUsedViewSubIdStatic: {6} this.photonViewList.Count {7}.)", args));
+            Xeres.Tools.Logger.addError(string.Format("DoInstantiate re-defines a GameObject. Destroying old entry! New: '{0}' (instantiationID: {1}) Old: {3}. PhotonViews on old: {4}. instantiatedObjects.Count: {2}. PhotonNetwork.lastUsedViewSubId: {5} PhotonNetwork.lastUsedViewSubIdStatic: {6} this.photonViewList.Count {7}.)", args));
             this.RemoveInstantiatedGO(go, true);
         }
         this.instantiatedObjects.Add(instantiationId, obj2);
@@ -681,7 +682,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
             }
             if (resourceGameObject == null)
             {
-                Debug.LogError("PhotonNetwork error: Could not Instantiate the prefab [" + key + "]. Please verify you have this gameobject in a Resources folder.");
+                Xeres.Tools.Logger.addError("PhotonNetwork error: Could not Instantiate the prefab [" + key + "]. Please verify you have this gameobject in a Resources folder.");
                 return null;
             }
         }
@@ -721,7 +722,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
             }
             object[] args = new object[] { obj3, instantiationId, this.instantiatedObjects.Count, go, str2, PhotonNetwork.lastUsedViewSubId, PhotonNetwork.lastUsedViewSubIdStatic, this.photonViewList.Count };
-            Debug.LogError(string.Format("DoInstantiate re-defines a GameObject. Destroying old entry! New: '{0}' (instantiationID: {1}) Old: {3}. PhotonViews on old: {4}. instantiatedObjects.Count: {2}. PhotonNetwork.lastUsedViewSubId: {5} PhotonNetwork.lastUsedViewSubIdStatic: {6} this.photonViewList.Count {7}.)", args));
+            Xeres.Tools.Logger.addError(string.Format("DoInstantiate re-defines a GameObject. Destroying old entry! New: '{0}' (instantiationID: {1}) Old: {3}. PhotonViews on old: {4}. instantiatedObjects.Count: {2}. PhotonNetwork.lastUsedViewSubId: {5} PhotonNetwork.lastUsedViewSubIdStatic: {6} this.photonViewList.Count {7}.)", args));
             this.RemoveInstantiatedGO(go, true);
         }
         this.instantiatedObjects.Add(instantiationId, obj3);
@@ -733,7 +734,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if ((rpcData == null) || !rpcData.ContainsKey((byte) 0))
         {
-            Debug.LogError("Malformed RPC; this should never occur. Content: " + SupportClass.DictionaryToString(rpcData));
+            Xeres.Tools.Logger.addError("Malformed RPC; this should never occur. Content: " + SupportClass.DictionaryToString(rpcData));
         }
         else
         {
@@ -749,7 +750,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 int num3 = (byte) rpcData[(byte) 5];
                 if (num3 > (PhotonNetwork.PhotonServerSettings.RpcList.Count - 1))
                 {
-                    Debug.LogError("Could not find RPC with index: " + num3 + ". Going to ignore! Check PhotonServerSettings.RpcList");
+                    Xeres.Tools.Logger.addError("Could not find RPC with index: " + num3 + ". Going to ignore! Check PhotonServerSettings.RpcList");
                     return;
                 }
                 str = PhotonNetwork.PhotonServerSettings.RpcList[num3];
@@ -775,26 +776,27 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 bool flag2 = num4 == sender.ID;
                 if (flag)
                 {
-                    Debug.LogWarning(string.Concat(new object[] { "Received RPC \"", str, "\" for viewID ", viewID, " but this PhotonView does not exist! View was/is ours.", !flag2 ? " Remote called." : " Owner called." }));
+                    Xeres.Tools.Logger.addWarning(string.Concat(new object[] { "Received RPC \"", str, "\" for viewID ", viewID, " but this PhotonView does not exist! View was/is ours.", !flag2 ? " Remote called." : " Owner called." }));
                 }
                 else
                 {
-                    Debug.LogError(string.Concat(new object[] { "Received RPC \"", str, "\" for viewID ", viewID, " but this PhotonView does not exist! Was remote PV.", !flag2 ? " Remote called." : " Owner called." }));
+                    Xeres.Tools.Logger.addError(string.Concat(new object[] { "Received RPC \"", str, "\" for viewID ", viewID, " but this PhotonView does not exist! Was remote PV.", !flag2 ? " Remote called." : " Owner called." }));
                 }
             }
             else if (photonView.prefix != num2)
             {
-                Debug.LogError(string.Concat(new object[] { "Received RPC \"", str, "\" on viewID ", viewID, " with a prefix of ", num2, ", our prefix is ", photonView.prefix, ". The RPC has been ignored." }));
+                Xeres.Tools.Logger.addError(string.Concat(new object[] { "Received RPC \"", str, "\" on viewID ", viewID, " with a prefix of ", num2, ", our prefix is ", photonView.prefix, ". The RPC has been ignored." }));
             }
             else if (str == string.Empty)
             {
-                Debug.LogError("Malformed RPC; this should never occur. Content: " + SupportClass.DictionaryToString(rpcData));
+                Xeres.Tools.Logger.addError("Malformed RPC; this should never occur. Content: " + SupportClass.DictionaryToString(rpcData));
             }
             else
             {
                 if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
                 {
-                    Debug.Log("Received RPC: " + str);
+                    Xeres.Tools.Logger.addMessage("Received RPC: " + str);
+                    Xeres.Tools.Logger.addMessage("Received RPC: " + str);
                 }
                 if ((photonView.group == 0) || this.allowedReceivingGroups.Contains(photonView.group))
                 {
@@ -823,7 +825,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                     {
                         if (behaviour == null)
                         {
-                            Debug.LogError("ERROR You have missing MonoBehaviours on your gameobjects!");
+                            Xeres.Tools.Logger.addError("ERROR You have missing MonoBehaviours on your gameobjects!");
                         }
                         else
                         {
@@ -914,16 +916,16 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                         {
                             if (num8 == 0)
                             {
-                                Debug.LogError(string.Concat(new object[] { "PhotonView with ID ", viewID, " has no method \"", str, "\" marked with the [RPC](C#) or @RPC(JS) property! Args: ", str2 }));
+                                Xeres.Tools.Logger.addError(string.Concat(new object[] { "PhotonView with ID ", viewID, " has no method \"", str, "\" marked with the [RPC](C#) or @RPC(JS) property! Args: ", str2 }));
                             }
                             else
                             {
-                                Debug.LogError(string.Concat(new object[] { "PhotonView with ID ", viewID, " has no method \"", str, "\" that takes ", callParameterTypes.Length, " argument(s): ", str2 }));
+                                Xeres.Tools.Logger.addError(string.Concat(new object[] { "PhotonView with ID ", viewID, " has no method \"", str, "\" that takes ", callParameterTypes.Length, " argument(s): ", str2 }));
                             }
                         }
                         else
                         {
-                            Debug.LogError(string.Concat(new object[] { "PhotonView with ID ", viewID, " has ", num7, " methods \"", str, "\" that takes ", callParameterTypes.Length, " argument(s): ", str2, ". Should be just one?" }));
+                            Xeres.Tools.Logger.addError(string.Concat(new object[] { "PhotonView with ID ", viewID, " has ", num7, " methods \"", str, "\" that takes ", callParameterTypes.Length, " argument(s): ", str2, ". Should be just one?" }));
                         }
                     }
                 }
@@ -973,10 +975,10 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
                     {
-                        Debug.Log("Join failed on GameServer. Changing back to MasterServer. Msg: " + operationResponse.DebugMessage);
+                        Xeres.Tools.Logger.addMessage("Join failed on GameServer. Changing back to MasterServer. Msg: " + operationResponse.DebugMessage);
                         if (operationResponse.ReturnCode == 0x7ff6)
                         {
-                            Debug.Log("Most likely the game became empty during the switch to GameServer.");
+                            Xeres.Tools.Logger.addMessage("Most likely the game became empty during the switch to GameServer.");
                         }
                     }
                     object[] parameters = new object[] { operationResponse.ReturnCode, operationResponse.DebugMessage };
@@ -987,10 +989,10 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
                     {
-                        Debug.Log("Join failed on GameServer. Changing back to MasterServer. Msg: " + operationResponse.DebugMessage);
+                        Xeres.Tools.Logger.addMessage("Join failed on GameServer. Changing back to MasterServer. Msg: " + operationResponse.DebugMessage);
                         if (operationResponse.ReturnCode == 0x7ff6)
                         {
-                            Debug.Log("Most likely the game became empty during the switch to GameServer.");
+                            Xeres.Tools.Logger.addMessage("Most likely the game became empty during the switch to GameServer.");
                         }
                     }
                     object[] objArray2 = new object[] { operationResponse.ReturnCode, operationResponse.DebugMessage };
@@ -1001,7 +1003,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
                     {
-                        Debug.Log("Create failed on GameServer. Changing back to MasterServer. Msg: " + operationResponse.DebugMessage);
+                        Xeres.Tools.Logger.addMessage("Create failed on GameServer. Changing back to MasterServer. Msg: " + operationResponse.DebugMessage);
                     }
                     object[] objArray1 = new object[] { operationResponse.ReturnCode, operationResponse.DebugMessage };
                     SendMonoMessage(PhotonNetworkingMessage.OnPhotonCreateRoomFailed, objArray1);
@@ -1026,7 +1028,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         int num = -1;
         if (go == null)
         {
-            Debug.LogError("GetInstantiatedObjectsId() for GO == null.");
+            Xeres.Tools.Logger.addError("GetInstantiatedObjectsId() for GO == null.");
             return num;
         }
         PhotonView[] photonViewsInChildren = go.GetPhotonViewsInChildren();
@@ -1036,7 +1038,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         }
         if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
         {
-            Debug.Log("GetInstantiatedObjectsId failed for GO: " + go);
+            Xeres.Tools.Logger.addMessage("GetInstantiatedObjectsId failed for GO: " + go);
         }
         return num;
     }
@@ -1084,7 +1086,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (view2.didAwake)
                     {
-                        Debug.LogWarning("Had to lookup view that wasn't in dict: " + view2);
+                        Xeres.Tools.Logger.addWarning("Had to lookup view that wasn't in dict: " + view2);
                     }
                     return view2;
                 }
@@ -1120,11 +1122,11 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
         {
-            Debug.Log("HandleEventLeave for player ID: " + actorID);
+            Xeres.Tools.Logger.addMessage("HandleEventLeave for player ID: " + actorID);
         }
         if ((actorID < 0) || !this.mActors.ContainsKey(actorID))
         {
-            Debug.LogError(string.Format("Received event Leave for unknown player ID: {0}", actorID));
+            Xeres.Tools.Logger.addError(string.Format("Received event Leave for unknown player ID: {0}", actorID));
         }
         else
         {
@@ -1133,7 +1135,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 PhotonPlayer playerWithID = this.GetPlayerWithID(actorID);
                 if (playerWithID == null)
                 {
-                    Debug.LogError("HandleEventLeave for player ID: " + actorID + " has no PhotonPlayer!");
+                    Xeres.Tools.Logger.addError("HandleEventLeave for player ID: " + actorID + " has no PhotonPlayer!");
                 }
                 this.CheckMasterClient(actorID);
                 if ((this.mCurrentGame != null) && this.mCurrentGame.autoCleanUp)
@@ -1214,7 +1216,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (this.tempInstantiationData.Count > 0)
         {
-            Debug.LogWarning("It seems some instantiation is not completed, as instantiation data is used. You should make sure instantiations are paused when calling this method. Cleaning now, despite this.");
+            Xeres.Tools.Logger.addWarning("It seems some instantiation is not completed, as instantiation data is used. You should make sure instantiations are paused when calling this method. Cleaning now, despite this.");
         }
         if (destroyInstantiatedGameObjects)
         {
@@ -1252,7 +1254,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         }
         if ((list.Count > 0) && (PhotonNetwork.logLevel >= PhotonLogLevel.Informational))
         {
-            Debug.Log("New level loaded. Removed " + list.Count + " scene view IDs from last level.");
+            Xeres.Tools.Logger.addMessage("New level loaded. Removed " + list.Count + " scene view IDs from last level.");
         }
     }
 
@@ -1304,9 +1306,11 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         }
         return false;
     }
-
+        
     public void OnEvent(EventData photonEvent)
     {
+        string eventName = "";
+        //Debug.Log(photonEvent);
         ExitGames.Client.Photon.Hashtable hashtable3;
         object obj7;
         object obj8;
@@ -1328,6 +1332,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         switch (photonEvent.Code)
         {
             case 200:
+                eventName = "executeRPC";
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     this.ExecuteRPC(photonEvent[0xf5] as ExitGames.Client.Photon.Hashtable, sender);
@@ -1335,8 +1340,9 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 return;
 
-            case 0xc9:
-            case 0xce:
+            case 201:
+            case 206:
+                eventName = "executeRPC";
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     object obj2 = photonEvent[0xf5];
@@ -1368,7 +1374,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 return;
 
-            case 0xca:
+            case 202:
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     if (photonEvent[0xf5] is ExitGames.Client.Photon.Hashtable)
@@ -1387,14 +1393,15 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 return;
 
-            case 0xcb:
+            case 203:
+                eventName = "Kicked";
                 if ((sender != null) && (sender.isMasterClient && !sender.isLocal))
                 {
                     PhotonNetwork.LeaveRoom();
                 }
                 break;
 
-            case 0xcc:
+            case 204:
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     if (photonEvent[0xf5] is ExitGames.Client.Photon.Hashtable)
@@ -1415,7 +1422,9 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 return;
 
-            case 0xcf:
+            case 207:
+                eventName = "Destroy Game Object";
+                Xeres.Tools.Logger.addMessage(photonEvent);
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     if (photonEvent[0xf5] is ExitGames.Client.Photon.Hashtable)
@@ -1438,8 +1447,9 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 return;
 
-            case 0xd0:
+            case 208:
             {
+                    eventName = "Set MasterClient";
                 if (!(photonEvent[0xf5] is ExitGames.Client.Photon.Hashtable))
                 {
                     break;
@@ -1474,7 +1484,8 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 return;
             }
-            case 0xe2:
+            case 226:
+                eventName = "AppStats";
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     object obj4 = photonEvent[0xe5];
@@ -1488,9 +1499,11 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                     }
                     break;
                 }
+                
                 return;
 
-            case 0xe4:
+            case 228:
+                eventName = "QueueState";
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     if (photonEvent.Parameters.ContainsKey(0xdf))
@@ -1518,7 +1531,8 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 return;
 
-            case 0xe5:
+            case 229:
+                eventName = "GameListUpdate";
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     obj7 = photonEvent[0xde];
@@ -1546,6 +1560,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 return;
 
             case 230:
+                eventName = "GameList";
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     obj7 = photonEvent[0xde];
@@ -1565,7 +1580,8 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 return;
 
-            case 0xfd:
+            case 253:
+                eventName = "SetProperties";
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     obj8 = photonEvent[0xfd];
@@ -1639,11 +1655,13 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 return;
 
-            case 0xfe:
+            case 254:
+                eventName = "Leave";
                 this.HandleEventLeave(key);
                 break;
 
-            case 0xff:
+            case 255:
+                eventName = "Join";
                 if ((sender == null) || !FengGameManagerMKII.ignoreList.Contains(sender.ID))
                 {
                     obj8 = photonEvent[0xf9];
@@ -1699,6 +1717,10 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 break;
         }
         this.externalListener.OnEvent(photonEvent);
+        if (photonEvent.Code != 200 && photonEvent.Code != 201 && photonEvent.Code != 206 && photonEvent.Code != 204 && photonEvent.Code != 202 && photonEvent.Code != 253)
+        {
+            Xeres.Tools.Logger.addEvent(eventName + " [" +photonEvent.Code + "] => " + key + " =>" + photonEvent.Parameters.ToStringFull());
+        }
     }
 
     public void OnOperationResponse(OperationResponse operationResponse)
@@ -1707,7 +1729,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         {
             if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
             {
-                Debug.Log("OperationResponse ignored while disconnecting. Code: " + operationResponse.OperationCode);
+                Xeres.Tools.Logger.addMessage("OperationResponse ignored while disconnecting. Code: " + operationResponse.OperationCode);
             }
             return;
         }
@@ -1715,20 +1737,20 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         {
             if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
             {
-                Debug.Log(operationResponse.ToString());
+                Xeres.Tools.Logger.addMessage(operationResponse.ToString());
             }
         }
         else if (operationResponse.ReturnCode == -3)
         {
-            Debug.LogError("Operation " + operationResponse.OperationCode + " could not be executed (yet). Wait for state JoinedLobby or ConnectedToMaster and their callbacks before calling operations. WebRPCs need a server-side configuration. Enum OperationCode helps identify the operation.");
+            Xeres.Tools.Logger.addError("Operation " + operationResponse.OperationCode + " could not be executed (yet). Wait for state JoinedLobby or ConnectedToMaster and their callbacks before calling operations. WebRPCs need a server-side configuration. Enum OperationCode helps identify the operation.");
         }
         else if (operationResponse.ReturnCode == 0x7ff0)
         {
-            Debug.LogError(string.Concat(new object[] { "Operation ", operationResponse.OperationCode, " failed in a server-side plugin. Check the configuration in the Dashboard. Message from server-plugin: ", operationResponse.DebugMessage }));
+            Xeres.Tools.Logger.addError(string.Concat(new object[] { "Operation ", operationResponse.OperationCode, " failed in a server-side plugin. Check the configuration in the Dashboard. Message from server-plugin: ", operationResponse.DebugMessage }));
         }
         else if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
         {
-            Debug.LogError(string.Concat(new object[] { "Operation failed: ", operationResponse.ToStringFull(), " Server: ", this.server }));
+            Xeres.Tools.Logger.addError(string.Concat(new object[] { "Operation failed: ", operationResponse.ToStringFull(), " Server: ", this.server }));
         }
         if (operationResponse.Parameters.ContainsKey(0xdd))
         {
@@ -1755,7 +1777,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                     string[] strArray2 = operationResponse[230] as string[];
                     if (((strArray == null) || (strArray2 == null)) || (strArray.Length != strArray2.Length))
                     {
-                        Debug.LogError("The region arrays from Name Server are not ok. Must be non-null and same length.");
+                        Xeres.Tools.Logger.addError("The region arrays from Name Server are not ok. Must be non-null and same length.");
                     }
                     else
                     {
@@ -1780,7 +1802,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                     }
                     goto Label_0955;
                 }
-                Debug.LogError(string.Format("The appId this client sent is unknown on the server (Cloud). Check settings. If using the Cloud, check account.", new object[0]));
+                Xeres.Tools.Logger.addError(string.Format("The appId this client sent is unknown on the server (Cloud). Check settings. If using the Cloud, check account.", new object[0]));
                 object[] objArray8 = new object[] { DisconnectCause.InvalidAuthentication };
                 SendMonoMessage(PhotonNetworkingMessage.OnFailedToConnectToPhoton, objArray8);
                 this.State = PeerStates.Disconnecting;
@@ -1793,7 +1815,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 string[] strArray3 = operationResponse[2] as string[];
                 if (((flagArray == null) || (strArray3 == null)) || ((this.friendListRequested == null) || (flagArray.Length != this.friendListRequested.Length)))
                 {
-                    Debug.LogError("FindFriends failed to apply the result, as a required value wasn't provided or the friend list length differed from result.");
+                    Xeres.Tools.Logger.addError("FindFriends failed to apply the result, as a required value wasn't provided or the friend list length differed from result.");
                 }
                 else
                 {
@@ -1833,12 +1855,12 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                     {
                         if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
                         {
-                            Debug.LogWarning(string.Format("JoinRandom failed: {0}.", operationResponse.ToStringFull()));
+                            Xeres.Tools.Logger.addWarning(string.Format("JoinRandom failed: {0}.", operationResponse.ToStringFull()));
                         }
                     }
                     else if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
                     {
-                        Debug.Log("JoinRandom failed: No open game. Calling: OnPhotonRandomJoinFailed() and staying on master server.");
+                        Xeres.Tools.Logger.addMessage("JoinRandom failed: No open game. Calling: OnPhotonRandomJoinFailed() and staying on master server.");
                     }
                     SendMonoMessage(PhotonNetworkingMessage.OnPhotonRandomJoinFailed, new object[0]);
                 }
@@ -1858,7 +1880,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
                     {
-                        Debug.Log(string.Format("JoinRoom failed (room maybe closed by now). Client stays on masterserver: {0}. State: {1}", operationResponse.ToStringFull(), this.State));
+                        Xeres.Tools.Logger.addMessage(string.Format("JoinRoom failed (room maybe closed by now). Client stays on masterserver: {0}. State: {1}", operationResponse.ToStringFull(), this.State));
                     }
                     SendMonoMessage(PhotonNetworkingMessage.OnPhotonJoinRoomFailed, new object[0]);
                 }
@@ -1871,7 +1893,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                     {
                         if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
                         {
-                            Debug.LogWarning(string.Format("CreateRoom failed, client stays on masterserver: {0}.", operationResponse.ToStringFull()));
+                            Xeres.Tools.Logger.addWarning(string.Format("CreateRoom failed, client stays on masterserver: {0}.", operationResponse.ToStringFull()));
                         }
                         SendMonoMessage(PhotonNetworkingMessage.OnPhotonCreateRoomFailed, new object[0]);
                     }
@@ -1942,24 +1964,24 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (operationResponse.ReturnCode == 0x7fff)
                     {
-                        Debug.LogError(string.Format("The appId this client sent is unknown on the server (Cloud). Check settings. If using the Cloud, check account.", new object[0]));
+                        Xeres.Tools.Logger.addError(string.Format("The appId this client sent is unknown on the server (Cloud). Check settings. If using the Cloud, check account.", new object[0]));
                         object[] objArray3 = new object[] { DisconnectCause.InvalidAuthentication };
                         SendMonoMessage(PhotonNetworkingMessage.OnFailedToConnectToPhoton, objArray3);
                     }
                     else if (operationResponse.ReturnCode == 0x7ff3)
                     {
-                        Debug.LogError(string.Format("Custom Authentication failed (either due to user-input or configuration or AuthParameter string format). Calling: OnCustomAuthenticationFailed()", new object[0]));
+                        Xeres.Tools.Logger.addError(string.Format("Custom Authentication failed (either due to user-input or configuration or AuthParameter string format). Calling: OnCustomAuthenticationFailed()", new object[0]));
                         object[] objArray4 = new object[] { operationResponse.DebugMessage };
                         SendMonoMessage(PhotonNetworkingMessage.OnCustomAuthenticationFailed, objArray4);
                     }
                     else
                     {
-                        Debug.LogError(string.Format("Authentication failed: '{0}' Code: {1}", operationResponse.DebugMessage, operationResponse.ReturnCode));
+                        Xeres.Tools.Logger.addError(string.Format("Authentication failed: '{0}' Code: {1}", operationResponse.DebugMessage, operationResponse.ReturnCode));
                     }
                 }
                 else
                 {
-                    Debug.LogError(string.Format("If you host Photon yourself, make sure to start the 'Instance LoadBalancing' " + base.ServerAddress, new object[0]));
+                    Xeres.Tools.Logger.addError(string.Format("If you host Photon yourself, make sure to start the 'Instance LoadBalancing' " + base.ServerAddress, new object[0]));
                 }
                 break;
 
@@ -1982,7 +2004,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                         goto Label_0955;
 
                     default:
-                        Debug.LogWarning(string.Format("OperationResponse unhandled: {0}", operationResponse.ToString()));
+                        Xeres.Tools.Logger.addWarning(string.Format("OperationResponse unhandled: {0}", operationResponse.ToString()));
                         goto Label_0955;
                 }
                 break;
@@ -1993,7 +2015,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         {
             if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
             {
-                Debug.LogWarning(string.Format("Currently, the limit of users is reached for this title. Try again later. Disconnecting", new object[0]));
+                Xeres.Tools.Logger.addWarning(string.Format("Currently, the limit of users is reached for this title. Try again later. Disconnecting", new object[0]));
             }
             SendMonoMessage(PhotonNetworkingMessage.OnPhotonMaxCccuReached, new object[0]);
             object[] objArray5 = new object[] { DisconnectCause.MaxCcuReached };
@@ -2003,7 +2025,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         {
             if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
             {
-                Debug.LogError(string.Format("The used master server address is not available with the subscription currently used. Got to Photon Cloud Dashboard or change URL. Disconnecting.", new object[0]));
+                Xeres.Tools.Logger.addError(string.Format("The used master server address is not available with the subscription currently used. Got to Photon Cloud Dashboard or change URL. Disconnecting.", new object[0]));
             }
             object[] objArray6 = new object[] { DisconnectCause.InvalidRegion };
             SendMonoMessage(PhotonNetworkingMessage.OnConnectionFail, objArray6);
@@ -2012,7 +2034,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         {
             if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
             {
-                Debug.LogError(string.Format("The authentication ticket expired. You need to connect (and authenticate) again. Disconnecting.", new object[0]));
+                Xeres.Tools.Logger.addError(string.Format("The authentication ticket expired. You need to connect (and authenticate) again. Disconnecting.", new object[0]));
             }
             object[] objArray7 = new object[] { DisconnectCause.AuthenticationTicketExpired };
             SendMonoMessage(PhotonNetworkingMessage.OnConnectionFail, objArray7);
@@ -2027,12 +2049,12 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         PhotonView photonView = this.GetPhotonView(viewID);
         if (photonView == null)
         {
-            Debug.LogWarning(string.Concat(new object[] { "Received OnSerialization for view ID ", viewID, ". We have no such PhotonView! Ignored this if you're leaving a room. State: ", this.State }));
+            Xeres.Tools.Logger.addWarning(string.Concat(new object[] { "Received OnSerialization for view ID ", viewID, ". We have no such PhotonView! Ignored this if you're leaving a room. State: ", this.State }));
             return;
         }
         else if ((photonView.prefix > 0) && (correctPrefix != photonView.prefix))
         {
-            Debug.LogError(string.Concat(new object[] { "Received OnSerialization for view ID ", viewID, " with prefix ", correctPrefix, ". Our prefix is ", photonView.prefix }));
+            Xeres.Tools.Logger.addError(string.Concat(new object[] { "Received OnSerialization for view ID ", viewID, " with prefix ", correctPrefix, ". Our prefix is ", photonView.prefix }));
         }
         else if ((photonView.group == 0) || this.allowedReceivingGroups.Contains(photonView.group))
         {
@@ -2042,7 +2064,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
                     {
-                        Debug.Log(string.Concat(new object[] { "Skipping packet for ", photonView.name, " [", photonView.viewID, "] as we haven't received a full packet for delta compression yet. This is OK if it happens for the first few frames after joining a game." }));
+                        Xeres.Tools.Logger.addMessage(string.Concat(new object[] { "Skipping packet for ", photonView.name, " [", photonView.viewID, "] as we haven't received a full packet for delta compression yet. This is OK if it happens for the first few frames after joining a game." }));
                     }
                     return;
                 }
@@ -2087,7 +2109,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
             }
             else
             {
-                Debug.LogError("Type of observed is unknown when receiving.");
+                Xeres.Tools.Logger.addError("Type of observed is unknown when receiving.");
             }
         }
     }
@@ -2148,7 +2170,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         }
         else
         {
-            Debug.LogError("Observed type is not serializable: " + view.observed.GetType());
+            Xeres.Tools.Logger.addError("Observed type is not serializable: " + view.observed.GetType());
             return null;
         }
         object[] lastData = list.ToArray();
@@ -2189,7 +2211,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         DisconnectCause cause;
         if (PhotonNetwork.logLevel >= PhotonLogLevel.Informational)
         {
-            Debug.Log(string.Format("OnStatusChanged: {0}", statusCode.ToString()));
+            Xeres.Tools.Logger.addMessage(string.Format("OnStatusChanged: {0}", statusCode.ToString()));
         }
         switch (statusCode)
         {
@@ -2211,7 +2233,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
                     {
-                        Debug.Log("Connected to NameServer.");
+                        Xeres.Tools.Logger.addMessage("Connected to NameServer.");
                     }
                     this.server = ServerConnection.NameServer;
                     if (this.CustomAuthenticationValues != null)
@@ -2223,7 +2245,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
                     {
-                        Debug.Log("Connected to gameserver.");
+                        Xeres.Tools.Logger.addMessage("Connected to gameserver.");
                     }
                     this.server = ServerConnection.GameServer;
                     this.State = PeerStates.ConnectedToGameserver;
@@ -2232,7 +2254,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
                     {
-                        Debug.Log("Connected to masterserver.");
+                        Xeres.Tools.Logger.addMessage("Connected to masterserver.");
                     }
                     this.server = ServerConnection.MasterServer;
                     this.State = PeerStates.ConnectedToMaster;
@@ -2299,13 +2321,13 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                     SendMonoMessage(PhotonNetworkingMessage.OnConnectionFail, objArray3);
                     break;
                 }
-                Debug.LogError("Exception while connecting to: " + base.ServerAddress + ". Check if the server is available.");
+                Xeres.Tools.Logger.addError("Exception while connecting to: " + base.ServerAddress + ". Check if the server is available.");
                 if ((base.ServerAddress == null) || base.ServerAddress.StartsWith("127.0.0.1"))
                 {
-                    Debug.LogWarning("The server address is 127.0.0.1 (localhost): Make sure the server is running on this machine. Android and iOS emulators have their own localhost.");
+                    Xeres.Tools.Logger.addWarning("The server address is 127.0.0.1 (localhost): Make sure the server is running on this machine. Android and iOS emulators have their own localhost.");
                     if (base.ServerAddress == this.mGameserver)
                     {
-                        Debug.LogWarning("This might be a misconfiguration in the game server config. You need to edit it to a (public) address.");
+                        Xeres.Tools.Logger.addWarning("This might be a misconfiguration in the game server config. You need to edit it to a (public) address.");
                     }
                 }
                 this.State = PeerStates.PeerCreated;
@@ -2323,7 +2345,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
 
             case StatusCode.QueueIncomingReliableWarning:
             case StatusCode.QueueIncomingUnreliableWarning:
-                Debug.Log(statusCode + ". This client buffers many incoming messages. This is OK temporarily. With lots of these warnings, check if you send too much or execute messages too slow. " + (!PhotonNetwork.isMessageQueueRunning ? "Your isMessageQueueRunning is false. This can cause the issue temporarily." : string.Empty));
+                Xeres.Tools.Logger.addMessage(statusCode + ". This client buffers many incoming messages. This is OK temporarily. With lots of these warnings, check if you send too much or execute messages too slow. " + (!PhotonNetwork.isMessageQueueRunning ? "Your isMessageQueueRunning is false. This can cause the issue temporarily." : string.Empty));
                 goto Label_055E;
 
             case StatusCode.ExceptionOnReceive:
@@ -2339,7 +2361,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 else
                 {
-                    Debug.LogWarning(string.Concat(new object[] { statusCode, " while connecting to: ", base.ServerAddress, ". Check if the server is available." }));
+                    Xeres.Tools.Logger.addWarning(string.Concat(new object[] { statusCode, " while connecting to: ", base.ServerAddress, ". Check if the server is available." }));
                     cause = (DisconnectCause) statusCode;
                     object[] objArray5 = new object[] { cause };
                     SendMonoMessage(PhotonNetworkingMessage.OnFailedToConnectToPhoton, objArray5);
@@ -2371,12 +2393,12 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 goto Label_055E;
 
             case StatusCode.EncryptionFailedToEstablish:
-                Debug.LogError("Encryption wasn't established: " + statusCode + ". Going to authenticate anyways.");
+                Xeres.Tools.Logger.addError("Encryption wasn't established: " + statusCode + ". Going to authenticate anyways.");
                 this.OpAuthenticate(this.mAppId, this.mAppVersionPun, this.PlayerName, this.CustomAuthenticationValues, this.CloudRegion.ToString());
                 goto Label_055E;
 
             default:
-                Debug.LogError("Received unknown status code: " + statusCode);
+                Xeres.Tools.Logger.addError("Received unknown status code: " + statusCode);
                 goto Label_055E;
         }
         this.Disconnect();
@@ -2463,7 +2485,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (this.State != PeerStates.Joined)
         {
-            Debug.LogWarning("Not sending leave operation. State is not 'Joined': " + this.State);
+            Xeres.Tools.Logger.addWarning("Not sending leave operation. State is not 'Joined': " + this.State);
             return false;
         }
         return this.OpCustom(0xfe, null, true, 0);
@@ -2580,14 +2602,14 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
             {
                 if (netView != this.photonViewList[netView.viewID])
                 {
-                    Debug.LogError(string.Format("PhotonView ID duplicate found: {0}. New: {1} old: {2}. Maybe one wasn't destroyed on scene load?! Check for 'DontDestroyOnLoad'. Destroying old entry, adding new.", netView.viewID, netView, this.photonViewList[netView.viewID]));
+                    Xeres.Tools.Logger.addError(string.Format("PhotonView ID duplicate found: {0}. New: {1} old: {2}. Maybe one wasn't destroyed on scene load?! Check for 'DontDestroyOnLoad'. Destroying old entry, adding new.", netView.viewID, netView, this.photonViewList[netView.viewID]));
                 }
                 this.RemoveInstantiatedGO(this.photonViewList[netView.viewID].gameObject, true);
             }
             this.photonViewList.Add(netView.viewID, netView);
             if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
             {
-                Debug.Log("Registered PhotonView: " + netView.viewID);
+                Xeres.Tools.Logger.addMessage("Registered PhotonView: " + netView.viewID);
             }
         }
     }
@@ -2606,7 +2628,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         }
         if (this.instantiatedObjects.Count > 0)
         {
-            Debug.LogError("RemoveAllInstantiatedObjects() this.instantiatedObjects.Count should be 0 by now.");
+            Xeres.Tools.Logger.addError("RemoveAllInstantiatedObjects() this.instantiatedObjects.Count should be 0 by now.");
         }
         this.instantiatedObjects = new Dictionary<int, GameObject>();
     }
@@ -2623,14 +2645,14 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (go == null)
         {
-            Debug.LogError("Failed to 'network-remove' GameObject because it's null.");
+            Xeres.Tools.Logger.addError("Failed to 'network-remove' GameObject because it's null.");
         }
         else
         {
             PhotonView[] componentsInChildren = go.GetComponentsInChildren<PhotonView>();
             if ((componentsInChildren == null) || (componentsInChildren.Length <= 0))
             {
-                Debug.LogError("Failed to 'network-remove' GameObject because has no PhotonView components: " + go);
+                Xeres.Tools.Logger.addError("Failed to 'network-remove' GameObject because has no PhotonView components: " + go);
             }
             else
             {
@@ -2641,12 +2663,12 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 {
                     if (!view.isMine && (!this.mLocalActor.isMasterClient || this.mActors.ContainsKey(ownerActorNr)))
                     {
-                        Debug.LogError("Failed to 'network-remove' GameObject. Client is neither owner nor masterClient taking over for owner who left: " + view);
+                        Xeres.Tools.Logger.addError("Failed to 'network-remove' GameObject. Client is neither owner nor masterClient taking over for owner who left: " + view);
                         return;
                     }
                     if (instantiationId < 1)
                     {
-                        Debug.LogError("Failed to 'network-remove' GameObject because it is missing a valid InstantiationId on view: " + view + ". Not Destroying GameObject or PhotonViews!");
+                        Xeres.Tools.Logger.addError("Failed to 'network-remove' GameObject because it is missing a valid InstantiationId on view: " + view + ". Not Destroying GameObject or PhotonViews!");
                         return;
                     }
                 }
@@ -2672,7 +2694,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
                 {
-                    Debug.Log("Network destroy Instantiated GO: " + go.name);
+                    Xeres.Tools.Logger.addMessage("Network destroy Instantiated GO: " + go.name);
                 }
                 UnityEngine.Object.Destroy(go);
             }
@@ -2737,11 +2759,11 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         {
             if (view.viewID < 1)
             {
-                Debug.LogError(string.Concat(new object[] { "Illegal view ID:", view.viewID, " method: ", methodName, " GO:", view.gameObject.name }));
+                Xeres.Tools.Logger.addError(string.Concat(new object[] { "Illegal view ID:", view.viewID, " method: ", methodName, " GO:", view.gameObject.name }));
             }
             if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
             {
-                Debug.Log(string.Concat(new object[] { "Sending RPC \"", methodName, "\" to player[", player, "]" }));
+                Xeres.Tools.Logger.addMessage(string.Concat(new object[] { "Sending RPC \"", methodName, "\" to player[", player, "]" }));
             }
             ExitGames.Client.Photon.Hashtable rpcData = new ExitGames.Client.Photon.Hashtable();
             rpcData[(byte) 0] = view.viewID;
@@ -2784,11 +2806,11 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
             RaiseEventOptions options;
             if (view.viewID < 1)
             {
-                Debug.LogError(string.Concat(new object[] { "Illegal view ID:", view.viewID, " method: ", methodName, " GO:", view.gameObject.name }));
+                Xeres.Tools.Logger.addError(string.Concat(new object[] { "Illegal view ID:", view.viewID, " method: ", methodName, " GO:", view.gameObject.name }));
             }
             if (PhotonNetwork.logLevel >= PhotonLogLevel.Full)
             {
-                Debug.Log(string.Concat(new object[] { "Sending RPC \"", methodName, "\" to ", target }));
+                Xeres.Tools.Logger.addMessage(string.Concat(new object[] { "Sending RPC \"", methodName, "\" to ", target }));
             }
             ExitGames.Client.Photon.Hashtable customEventContent = new ExitGames.Client.Photon.Hashtable();
             customEventContent[(byte) 0] = view.viewID;
@@ -2880,7 +2902,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
             }
             else
             {
-                Debug.LogError("Unsupported target enum: " + target);
+                Xeres.Tools.Logger.addError("Unsupported target enum: " + target);
             }
         }
     }
@@ -3078,7 +3100,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
         {
             if (levelId == null)
             {
-                Debug.LogError("Parameter levelId can't be null!");
+                Xeres.Tools.Logger.addError("Parameter levelId can't be null!");
             }
             else
             {
@@ -3105,7 +3127,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 }
                 else
                 {
-                    Debug.LogError("Parameter levelId must be int or string!");
+                    Xeres.Tools.Logger.addError("Parameter levelId must be int or string!");
                 }
                 PhotonNetwork.room.SetCustomProperties(propertiesToSet);
                 this.SendOutgoingCommands();
@@ -3144,7 +3166,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
     {
         if (group <= 0)
         {
-            Debug.LogError("Error: PhotonNetwork.SetReceivingEnabled was called with an illegal group number: " + group + ". The group number should be at least 1.");
+            Xeres.Tools.Logger.addError("Error: PhotonNetwork.SetReceivingEnabled was called with an illegal group number: " + group + ". The group number should be at least 1.");
         }
         else if (enabled)
         {
@@ -3174,7 +3196,7 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 int item = enableGroups[i];
                 if (item <= 0)
                 {
-                    Debug.LogError("Error: PhotonNetwork.SetReceivingEnabled was called with an illegal group number: " + item + ". The group number should be at least 1.");
+                    Xeres.Tools.Logger.addError("Error: PhotonNetwork.SetReceivingEnabled was called with an illegal group number: " + item + ". The group number should be at least 1.");
                 }
                 else if (!this.allowedReceivingGroups.Contains(item))
                 {
@@ -3190,11 +3212,11 @@ internal class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                 int num4 = disableGroups[j];
                 if (num4 <= 0)
                 {
-                    Debug.LogError("Error: PhotonNetwork.SetReceivingEnabled was called with an illegal group number: " + num4 + ". The group number should be at least 1.");
+                    Xeres.Tools.Logger.addError("Error: PhotonNetwork.SetReceivingEnabled was called with an illegal group number: " + num4 + ". The group number should be at least 1.");
                 }
                 else if (list.Contains((byte) num4))
                 {
-                    Debug.LogError("Error: PhotonNetwork.SetReceivingEnabled disableGroups contains a group that is also in the enableGroups: " + num4 + ".");
+                    Xeres.Tools.Logger.addError("Error: PhotonNetwork.SetReceivingEnabled disableGroups contains a group that is also in the enableGroups: " + num4 + ".");
                 }
                 else if (this.allowedReceivingGroups.Contains(num4))
                 {

@@ -121,15 +121,19 @@
     <Compile Include="Xeres\CommandExtensions\Commands\RevivePlayer.cs" />
     <Compile Include="Xeres\CommandExtensions\Commands\SpawnEntity.cs" />
     <Compile Include="Xeres\CommandExtensions\Commands\StealName.cs" />
+    <Compile Include="Xeres\CommandExtensions\Commands\Teleport.cs" />
     <Compile Include="Xeres\CommandExtensions\Commands\TitanScatter.cs" />
     <Compile Include="Xeres\LoadSkin.cs" />
     <Compile Include="Xeres\Options\Setting.cs" />
     <Compile Include="Xeres\Options\SettingHandler.cs" />
     <Compile Include="Xeres\Options\Settings\MainSettings.cs" />
     <Compile Include="Xeres\Options\Settings\HumanSkinSetting.cs" />
+    <Compile Include="Xeres\Options\Settings\NetworkingSetting.cs" />
     <Compile Include="Xeres\Options\Settings\TitanSkinSetting.cs" />
     <Compile Include="Xeres\Tools\ChatExtensions.cs" />
+    <Compile Include="Xeres\Tools\Logger.cs" />
     <Compile Include="Xeres\Tools\XeresScoreboard.cs" />
+    <Compile Include="Xeres\UI\Components\InGame\Console.cs" />
     <Compile Include="Xeres\UI\Components\InGame\XeresOptions.cs" />
     <Compile Include="Xeres\UI\Components\MainMenu\CreateMultiGamePanel.cs" />
     <Compile Include="Xeres\UI\Components\MainMenu\CreateSingleGamePanel.cs" />
@@ -601,5 +605,9 @@
     <Reference Include="UnityScript.Lang">
       <HintPath>..\AoTTG\AoTTG_Data\Managed\UnityScript.Lang.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Xeres\Antis\" />
+    <Folder Include="Xeres\UI\Components\InGame\InGameMenu\" />
   </ItemGroup>
 </Project>
