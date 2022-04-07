@@ -1,0 +1,7 @@
+Hair:,,,,,
+HairModel:,,,,,
+Eye:,,,,,
+Body:,,,,,
+Eren:
+Annie:
+Colossal:

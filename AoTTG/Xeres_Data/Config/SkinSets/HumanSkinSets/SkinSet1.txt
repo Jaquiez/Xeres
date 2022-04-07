@@ -1,0 +1,13 @@
+horse:Transparent
+hair:https://i.imgur.com/FET6D7O.png
+eyes:https://i.imgur.com/6IXXT4H.png
+glass:https://i.imgur.com/6IXXT4H.png
+face:
+skin:https://i.imgur.com/j581Hot.png
+costume:https://i.imgur.com/AzMtVh5.png
+cape:https://i.imgur.com/zrX9TNp.png
+leftGear:Transparent
+rightGear:https://i.imgur.com/DhF0Qu9.png
+gas:Transparent
+hoodie:
+weaponTrail:https://i.imgur.com/hn2F7PQ.png

@@ -1,0 +1,114 @@
+Initialize engine version: 4.6.0f3 (30840d631a27)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [nvldumd.dll 30.0.15.1215]
+    Renderer: NVIDIA GeForce RTX 2070 SUPER
+    Vendor:   NVIDIA
+    VRAM:     3072 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=0 INTZ=1 RAWZ=0 NULL=1 RESZ=0 SlowINTZ=0
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\ICSharpCode.SharpZipLib.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\ICSharpCode.SharpZipLib.dll into Unity Child Domain
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Photon3Unity3D.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Photon3Unity3D.dll into Unity Child Domain
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Boo.Lang.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\Boo.Lang.dll into Unity Child Domain
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\UnityScript.Lang.dll (this message is harmless)
+Loading C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\UnityScript.Lang.dll into Unity Child Domain
+- Completed reload, in  0.032 seconds
+desktop: 1920x1080 144Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Jaq\source\repos\Xeres\AoTTG\Xeres_Data\Managed\System.dll (this message is harmless)
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1788)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1788)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1788)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1788)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1788)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at InRoomChat..ctor () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1788)
+
+{Background= (UnityEngine.Texture2D), cloud= (UnityEngine.Texture2D), loading1= (UnityEngine.Texture2D), loading2= (UnityEngine.Texture2D), loading3= (UnityEngine.Texture2D)}
+(System.String)AHSSIdle=(System.Boolean)False, (System.String)chatBold=(System.Boolean)False, (System.String)chatColor=(System.String), (System.String)chatName=(System.String), (System.String)gasBurst=(System.String)FX/boost_smoke, (System.String)infAHSS=(System.Boolean)False, (System.String)infBlades=(System.Boolean)False, (System.String)infGas=(System.Boolean)False, (System.String)chatItalics=(System.Boolean)False
+{HumanSet=SkinSet1, TitanSet=SkinSet1}
+{horse=Transparent, hair=https://i.imgur.com/FET6D7O.png, eyes=https://i.imgur.com/6IXXT4H.png, glass=https://i.imgur.com/6IXXT4H.png, face=, skin=https://i.imgur.com/j581Hot.png, costume=https://i.imgur.com/AzMtVh5.png, cape=https://i.imgur.com/zrX9TNp.png, leftGear=Transparent, rightGear=https://i.imgur.com/DhF0Qu9.png, gas=Transparent, hoodie=, weaponTrail=https://i.imgur.com/hn2F7PQ.png}
+NullReferenceException: Object reference not set to an instance of an object
+  at Xeres.Options.SettingHandler.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Multiplayer
+Connection Protocol UDP Port 5055
+Can't execute Disconnect() while not connected. Nothing changed. State: PeerCreated
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Xeres.Tools.Logger.addWarning (System.String message) [0x00000] in <filename unknown>:0 
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+OnConnectedToPhoton
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+AppStats [226] => -1 =>{227=1, 229=16, 228=5}
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Xeres.Tools.Logger.addEvent (System.Object message) [0x00000] in <filename unknown>:0 
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+GameList [230] => -1 =>{222={(String)1`The Forest IV  - LAVA`normal`19998`day``25822=(Hashtable){(Byte)255=(Byte)1, (Byte)253=(Boolean)True, (Byte)252=(Byte)1}, (String)...`Annie II`normal`120`day``38567=(Hashtable){(Byte)255=(Byte)10, (Byte)253=(Boolean)True, (Byte)252=(Byte)1}, (String)[38761d]>>))  The Forest  ((<<`The Forest III`normal`99999999`day``1875993=(Hashtable){(Byte)255=(Byte)18, (Byte)253=(Boolean)True, (Byte)252=(Byte)5}, (String)[e00000]>>))  Blood For The Blood God  ((<<`The City`normal`99999999`day``3106036=(Hashtable){(Byte)255=(Byte)18, (Byte)253=(Boolean)True, (Byte)252=(Byte)5}, (String)[ff8300]>>))  Outside The Walls  ((<<`Outside The Walls`normal`99999999`day``5543829=(Hashtable){(Byte)255=(Byte)18, (Byte)253=(Boolean)True, (Byte)252=(Byte)4}}}
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+System.NullReferenceException: Object reference not set to an instance of an object
+  at Xeres.Tools.Logger.addEvent (System.Object message) [0x00000] in <filename unknown>:0 
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+OnLeftLobby
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+OnDisconnectedFromPhoton
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+

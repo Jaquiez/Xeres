@@ -1,0 +1,13 @@
+horse:
+hair:https://i.imgur.com/NHKfMH0.png
+eyes:https://i.imgur.com/Gpr1uqr.png
+glass:
+face:
+skin:https://i.imgur.com/7ub2puB.png
+costume:https://i.imgur.com/axRCyuL.png
+cape:Transparent
+leftGear:https://i.imgur.com/sLDQHrQ.png
+rightGear:https://i.imgur.com/sLDQHrQ.png
+gas:https://i.imgur.com/onOAOca.png
+hoodie:
+weaponTrail:https://i.imgur.com/nr6utQz.png

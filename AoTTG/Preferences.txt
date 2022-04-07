@@ -1,0 +1,9 @@
+infGas=
+infAHSS=
+infBlades=
+chatBold=
+chatItalics=
+chatName=
+chatColor=
+AHSSIdle=
+gasBurst=

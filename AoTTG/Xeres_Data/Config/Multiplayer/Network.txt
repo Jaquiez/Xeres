@@ -1,0 +1,3 @@
+ConnectionProtocol:UDP
+DefaultRegion:US
+Default Region:UDP

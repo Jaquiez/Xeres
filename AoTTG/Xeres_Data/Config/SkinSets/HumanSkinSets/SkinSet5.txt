@@ -1,0 +1,13 @@
+horse:
+hair:
+eyes:
+glass:
+face:
+skin:
+costume:
+cape:
+leftGear:
+rightGear:
+gas:
+hoodie:
+weaponTrail:
