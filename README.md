@@ -19,3 +19,5 @@ Xeres is [public and free to use!](https://www.dropbox.com/sh/7og6dmljq6l767m/AA
 ## Commands
 Use /help to see a full list in game
 
+## Thanks for supporting me on this project everyone. 
+You're still welcome to edit, use, and enjoy Xeres but I will no longer be updating it. 
